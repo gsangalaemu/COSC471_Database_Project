@@ -11,7 +11,7 @@ $password = "";
 $database = "song_sleuth";
 
 // Create connection to database
-$conn = new mysqli($host, $user, $password);
+$conn = new mysqli($host, $user, $password, $database, $port);
 
 // Output an error if the connection to the database fails
 if ($conn->connect_error) {
@@ -24,15 +24,28 @@ $sql = "SELECT *
         FROM ARTISTS";
 
 $result = $conn->query($sql);
+?>
 
+<!DOCTYPE html>
+<head></head>
+<body>
+
+<ul>
+<?php
 if ($result->num_rows> 0) {
-    echo "Artist List";
+    //echo "Artist List";
     while ($row = $result->fetch_assoc()) {
-        echo "Artist name: " . $row["Artist_name"] . "</br>";
+        echo "<li>" . "Artist name: " . htmlspecialchars($row["Artist_name"]) . "</li>";
     }
 } else {
-    echo "No matching results";
+    echo "<li>No matching results</li>";
 }
+?>
+</ul>
+
+</body>
+</html>
+<?php
 
 // Close the connection to the datebase
 $conn->close();
