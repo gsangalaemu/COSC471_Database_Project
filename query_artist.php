@@ -33,7 +33,7 @@ $result = $conn->query($sql);
 <ul>
 <?php
 if ($result->num_rows> 0) {
-    //echo "Artist List";
+    echo "<h1>" . "Artist List" . "</h1>";
     while ($row = $result->fetch_assoc()) {
         echo "<li>" . "Artist name: " . htmlspecialchars($row["Artist_name"]) . "</li>";
     }
