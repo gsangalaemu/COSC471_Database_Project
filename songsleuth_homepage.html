@@ -245,6 +245,8 @@
                 </div>
 
                 <!-- The following divs are the query forms -->
+
+
                 <div id="divSongByArtist" class="formDiv">
                     <h2>Querying Songs By Artist</h2><br>
                     <form id="formSongByArtist" action="/action_page.php">
@@ -255,13 +257,14 @@
                     </form>
                 </div>
 
+                <!--Album Artist Query Form-->
                 <div id="divAlbumByArtist" class="formDiv">
                     <h2>Querying Albums By Artist</h2><br>
-                    <form id="formAlbumByArtist" action="/action_page.php">
+                    <form id="formAlbumByArtist" action="query_album_artist.php" method="POST">
                         <label for="queryAlbumArtist">Artist Name:</label>
                         <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Michael Jackson" required="true">
 
-                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                        <button type="submit:">Search</button>
                     </form>
                 </div>
 
