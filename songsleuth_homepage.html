@@ -6,13 +6,14 @@
                 justify-self: center;
                 text-align: center;
 
-                max-width: 600px;
-                min-width: 600px;
+                max-width: 1000px;
+                min-width: 900px;
 
-                max-height: 400px;
+                max-height: 1000px;
                 min-height: 400px;
 
                 margin-top: 10px;
+                padding: 10px;
             }
             .bubbleDiv{
                 background-color: plum;
@@ -23,8 +24,32 @@
                 margin: 5px
 
             }
+            .formDiv{
+                align-content: center;
+                background-color: lightsalmon;
+                margin: 10px 10% 10px;
+                border-radius: 15px;
+
+                max-width: 800px;
+
+
+                padding: 20px;
+                display: none;
+            }
+            .tableDiv{
+                align-content: center;
+                background-color: palegoldenrod;
+                margin: 10px 10% 10px;
+                border-radius: 15px;
+
+                max-width: 800px;
+
+
+                padding: 20px;
+                display: none;
+            }
             button {
-               background-color: plum;
+                background-color: plum;
                 width: fit-content;
                 height: fit-content;
                 padding-left: 2%;
@@ -33,50 +58,274 @@
                 margin: 5px;
                 border-radius: 15px; 
             }
+            form {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            label {
+              min-width: 30%;
+              margin-bottom: 10px;
+            }
+
+            input[type=text] {
+                min-width: 45%;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+            }
+
+            textarea {
+                min-width: 45%;
+                height: 100px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+            }
+
+            input[type=submit] {
+                width: 100%;
+                background-color: plum;
+                padding: 14px;
+                margin: 10px 30% 0;
+                font-size: large;
+                
+                border-radius: 15px;
+                cursor: pointer;
+            }
+            label:has(+ input:required):after {
+                content: ' *';
+                color: red;
+            }
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #000000;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
         </style>
+        <script>
+            function openForm(divId) {
+                closeForm('divAddArtist');
+                closeForm('divAddSong');
+                closeForm('divAddAlbum');
+                closeForm('divSongByArtist');
+                closeForm('divAlbumByArtist');
+                closeForm('divSongByGenre');
+                closeForm('divAlbumByGenre');
+                document.getElementById(divId).style.display = "block";
+
+                document.getElementById('firstTable').style.display = "none";
+            }
+
+            function closeForm(divId) {
+                document.getElementById(divId).style.display = "none";
+            }
+            function tempShowTable(divId) {
+                document.getElementById(divId).style.display = "block";
+            }
+        </script>
     </head>
-    <body>
+    <body style="background-color: lightblue;">
         
         <div class="backgroundDiv">
-            <!--
-                god this comment command in html is ass
-
-                anyways this backgroundDiv contains several other divs
-                that have functionality, this is so we can have a workspace
-                that users look at that isn't just "the whole page"
-                we can change that later if we don't want delineation between
-                page and functional area. It will be helpful for viewing
-                on smaller sized windows, however.
-            -->
-            <div><button><h1><i>SongSleuth</i></h1></button>
+            
+            <div>
+                <button onclick="window.location.href='songsleuth_homepage.html'"><h1><i>SongSleuth</i></h1></button>
             </div>
-            <div style="background-color: green;
+            <div style="/*background-color: green;*/
                         margin-top: 10px;
                         margin-bottom: 10px;
                         padding: 15px">
-                <button onclick="window.location.href='insert_artist.php'"><h2>Add New Artist</h3></button>
-                <button><h2>Add New Song</h3></button>
-                <button><h2>Add New Album</h3></button>
-            </div>
-            <div style="width:fit-content;
+                <button onclick="openForm('divAddArtist')"><h2>Add New Artist</h3></button>
+                <button onclick="openForm('divAddSong')"><h2>Add New Song</h3></button>
+                <button onclick="openForm('divAddAlbum')"><h2>Add New Album</h3></button>
+                <div style="/*background-color: yellow;*/
+                        width:fit-content;
                         height: fit-content;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
                         justify-self: center;">
-                <grid style="/*background-color: yellow;*/
-                            display: grid;
-                            align-items: center;
-                            
-                            grid-template-columns:  auto auto;">
+                    <grid style="display: grid;
+                                align-items: center;
+                                grid-template-columns:  auto auto;">
+                
+                        <center><button onclick="openForm('divSongByArtist')"><h3>Query Songs By Artist</h3></button></center>
+                        <center><button onclick="openForm('divAlbumByArtist')"><h3>Query Albums By Artists</h4></button></center>
+                        <center><button onclick="openForm('divSongByGenre')"><h3>Query Songs By Genre</h4></button></center>
+                        <center><button onclick="openForm('divAlbumByGenre')"><h3>Query Albums By Genre</h4></button></center>
+                    </grid>
+
                     
-                    <button onclick="window.location.href='query_artist.php'"><h3>Query Songs By Artist</h3></button>
-                    <button><h3>Query Albums By Artists</h4></button>
-                    <button><h3>Query Songs By Genre</h4></button>
-                    <button><h3>Query Albums By Genre</h4></button>
-                </grid>
+                </div>
+
+                <!-- The following divs are the add forms -->
+
+                <div id="divAddArtist" class="formDiv">
+                    <h2>Add New Artist</h2><br>
+                    <form id="formAddArtist" action="/action_page.php">
+                        <label for="artistName">Artist Name:</label>
+                        <input type="text" id="artistName" name="artistName" placeholder="e.g. John Smith" required="true">
+
+                        <label for="yearsStart">Years Active (Start):</label>
+                        <input type="text" id="yearsStart" name="yearsStart" placeholder="e.g. 1/1/1970">
+
+                        <label for="yearsEnd">Years Active (End):</label>
+                        <input type="text" id="yearsEnd" name="yearsEnd" placeholder="e.g. 12/31/2999">
+
+                        
+                        <label for="groupAffils">Group Affiliations:</label>
+                        <textarea id="groupAffils" name="groupAffils" placeholder="e.g. The Beatles, Queens of the Stone Age, Metallica"></textarea>
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+
+                <div id="divAddSong" class="formDiv">
+                    <h2>Add New Song</h2><br>
+                    <form id="formAddSong" action="/action_page.php">
+                        <label for="songName">Song Name:</label>
+                        <input type="text" id="songName" name="songName" placeholder="Song name" required="true">
+
+                        <label for="songAlbumArtist">Album Artist:</label>
+                        <input type="text" id="songAlbumArtist" name="songAlbumArtist" placeholder="This is the primary artist if song is a single" required="true">
+
+                        <label for="songAlbum">Album:</label>
+                        <input type="text" id="songAlbum" name="songAlbum" placeholder="Use the name of the song if it is a single">
+
+                        <label for="trackNum">Track No.:</label>
+                        <input type="text" id="trackNum" name="trackNum" placeholder="Where in the album the song is">
+                        
+                        <label for="performingArtists">Performing Artist(s):</label>
+                        <textarea id="performingArtists" name="performingArtists" placeholder="List each performing artist, seperated by commas"></textarea>
+
+                        <label for="songGenre">Genre:</label>
+                        <input type="text" id="songGenre" name="songGenre" placeholder="List one genre the song falls under">
+
+                        <label for="songYear">Year:</label>
+                        <input type="text" id="songYear" name="songYear" placeholder="Year the song was released, like 1996">
+
+                        <label for="songLength">Song Length:</label>
+                        <input type="text" id="songLength" name="songLength" placeholder="Write as hours:minutes:seconds or minutes:seconds">
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+
+                <div id="divAddAlbum" class="formDiv">
+                    <h2>Add New Album</h2><br>
+                    <form id="formAddAlbum" action="/action_page.php">
+                        <label for="albumName">Album Name:</label>
+                        <input type="text" id="albumName" name="albumName" placeholder="Use the name of the song if the album is wrapping a single" required="true">
+
+                        <label for="albumArtist">Album Artist:</label>
+                        <input type="text" id="albumArtist" name="albumArtist" placeholder="The primary artist of the album">
+
+                        <label for="albumRelease">Release Date:</label>
+                        <input type="text" id="albumRelease" name="albumRelease" placeholder="The date the album was released">
+
+                        
+                        <label for="albumGenre">Genre(s):</label>
+                        <textarea id="albumGenre" name="albumGenre" placeholder="List each genre that the song falls under, comma seperated"></textarea>
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+
+                <!-- The following divs are the query forms -->
+                <div id="divSongByArtist" class="formDiv">
+                    <h2>Querying Songs By Artist</h2><br>
+                    <form id="formSongByArtist" action="/action_page.php">
+                        <label for="querySongArtist">Artist Name:</label>
+                        <input type="text" id="querySongArtist" name="querySongArtist" placeholder="e.g. Michael Jackson" required="true">
+
+                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                    </form>
+                </div>
+
+                <div id="divAlbumByArtist" class="formDiv">
+                    <h2>Querying Albums By Artist</h2><br>
+                    <form id="formAlbumByArtist" action="/action_page.php">
+                        <label for="queryAlbumArtist">Artist Name:</label>
+                        <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Michael Jackson" required="true">
+
+                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                    </form>
+                </div>
+
+                <div id="divSongByGenre" class="formDiv">
+                    <h2>Querying Songs By Genre</h2><br>
+                    <form id="formSongByGenre" action="/action_page.php">
+                        <label for="querySongGenre">Genre:</label>
+                        <input type="text" id="querySongGenre" name="querySongGenre" placeholder="e.g. Depressive Black Metal" required="true">
+
+                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                    </form>
+                </div>
+
+                <div id="divAlbumByGenre" class="formDiv">
+                    <h2>Querying Albums By Genre</h2><br>
+                    <form id="formAlbumByArtist" action="/action_page.php">
+                        <label for="queryAlbumArtist">Genre:</label>
+                        <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Depressive Black Metal" required="true">
+
+                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                    </form>
+                </div>
+
+                <!-- This is a simple example of a table to show data, this will not be present later-->
+                <div id="firstTable" class="tableDiv">
+                    <table>
+                        <tr>
+                            <th>Company</th>
+                            <th>Contact</th>
+                            <th>Country</th>
+                        </tr>
+                        <tr>
+                            <td>Alfreds Futterkiste</td>
+                            <td>Maria Anders</td>
+                            <td>Germany</td>
+                        </tr>
+                        <tr>
+                            <td>Centro comercial Moctezuma</td>
+                            <td>Francisco Chang</td>
+                            <td>Mexico</td>
+                        </tr>
+                        <tr>
+                            <td>Ernst Handel</td>
+                            <td>Roland Mendel</td>
+                            <td>Austria</td>
+                        </tr>
+                        <tr>
+                            <td>Island Trading</td>
+                            <td>Helen Bennett</td>
+                            <td>UK</td>
+                        </tr>
+                        <tr>
+                            <td>Laughing Bacchus Winecellars</td>
+                            <td>Yoshi Tannamuri</td>
+                            <td>Canada</td>
+                        </tr>
+                        <tr>
+                            <td>Magazzini Alimentari Riuniti</td>
+                            <td>Giovanni Rovelli</td>
+                            <td>Italy</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-
-
-
-
         </div>
     </body>
 </html>
