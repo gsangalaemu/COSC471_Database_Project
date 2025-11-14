@@ -5,13 +5,12 @@
 
 // Database info
 $host = "127.0.0.1";
-$port = 3307;
 $user = "root";
 $password = "";
 $database = "song_sleuth";
 
 // Create connection to database
-$conn = new mysqli($host, $user, $password, $database, $port);
+$conn = new mysqli($host, $user, $password, $database);
 
 // Output an error if the connection to the database fails
 if ($conn->connect_error) {

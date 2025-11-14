@@ -1,13 +1,12 @@
 <?php
 // Database info
 $host = "127.0.0.1";
-$port = 3307;
 $user = "root";
 $password = "";
 $database = "song_sleuth";
 
 // Create connection to database
-$conn = new mysqli($host, $user, $password, $database, $port);
+$conn = new mysqli($host, $user, $password, $database);
 
 // Output an error if the connection to the database fails
 if ($conn->connect_error) {
@@ -16,7 +15,7 @@ if ($conn->connect_error) {
 
 // Testing the SQL query with a hardcoded insert, will need to change later
 $sql = "INSERT INTO ARTISTS(Artist_name)
-        VALUES ('Defeated Sanity')";
+        VALUES ('John Coltrane')";
 ?>
 
 <!DOCTYPE html>
