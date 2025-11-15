@@ -48,6 +48,16 @@
                 padding: 20px;
                 display: none;
             }
+                   .resultsDiv{
+                align-content: center;
+                background-color: palegoldenrod;
+                margin: 10px 10% 10px;
+                border-radius: 15px;
+
+                max-width: 800px;
+
+                padding: 20px;                
+            }
             button {
                 background-color: plum;
                 width: fit-content;
@@ -126,14 +136,16 @@
                 closeForm('divSongByGenre');
                 closeForm('divAlbumByGenre');
                 document.getElementById(divId).style.display = "block";
-
                 document.getElementById('firstTable').style.display = "none";
             }
 
             function closeForm(divId) {
                 document.getElementById(divId).style.display = "none";
             }
-            function tempShowTable(divId) {
+
+            // Function that displays the results of a search query. The div
+            // is hidden until after the query is run.
+               function showResultsDiv(divId) {
                 document.getElementById(divId).style.display = "block";
             }
         </script>
@@ -246,21 +258,21 @@
 
                 <!-- The following divs are the query forms -->
 
+                <!--Song Artist Query Form-->
+                <!-- This queries both performing artist and album artist -->
                 <div id="divSongByArtist" class="formDiv">
-                    <h2>Querying Songs By Artist</h2><br>
-                    <form id="formSongByArtist" action="/action_page.php">
+                    <h2>Query Songs By Artist</h2><br>
+                    <form id="formSongByArtist" method="POST">
                         <label for="querySongArtist">Artist Name:</label>
                         <input type="text" id="querySongArtist" name="querySongArtist" placeholder="e.g. Michael Jackson" required="true">
 
-                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                        <button type="submit">Search</button>
                     </form>
-                </div>
-
-                
+                </div>                
 
                 <!--Album Artist Query Form-->
                 <div id="divAlbumByArtist" class="formDiv">
-                    <h2>Querying Albums By Artist</h2><br>
+                    <h2>Query Albums By Artist</h2><br>
                     <form id="formAlbumByArtist" method="POST">
                         <label for="queryAlbumArtist">Artist Name:</label>
                         <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Michael Jackson" required="true">
@@ -270,7 +282,7 @@
                 </div>
 
                 <div id="divSongByGenre" class="formDiv">
-                    <h2>Querying Songs By Genre</h2><br>
+                    <h2>Query Songs By Genre</h2><br>
                     <form id="formSongByGenre" action="/action_page.php">
                         <label for="querySongGenre">Genre:</label>
                         <input type="text" id="querySongGenre" name="querySongGenre" placeholder="e.g. Depressive Black Metal" required="true">
@@ -280,7 +292,7 @@
                 </div>
 
                 <div id="divAlbumByGenre" class="formDiv">
-                    <h2>Querying Albums By Genre</h2><br>
+                    <h2>Query Albums By Genre</h2><br>
                     <form id="formAlbumByArtist" action="/action_page.php">
                         <label for="queryAlbumArtist">Genre:</label>
                         <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Depressive Black Metal" required="true">
@@ -290,7 +302,7 @@
                 </div>
 
                 <!-- Query results table -->
-                <div id="queryResults">
+                <div id="queryResults" class="tableDiv">
                     
                 </div>
             </div>
@@ -299,6 +311,22 @@
         <!-- Scripts to load the query results on the same page -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
+            // Script to load Song Artist Query
+                  $("#formSongByArtist").submit(function(event) {
+                event.preventDefault();                
+
+                $.ajax({
+                    type: "POST",
+                    url: "query_song_artist.php",
+                    data: { querySongArtist: $("#querySongArtist").val() },
+                    success: function(data) {
+                        $("#queryResults").html(data);
+                        showResultsDiv("queryResults");
+                    }
+                });
+            });
+
+            // Script to load Album Artist Query
             $("#formAlbumByArtist").submit(function(event) {
                 event.preventDefault();                
 
@@ -308,9 +336,10 @@
                     data: { queryAlbumArtist: $("#queryAlbumArtist").val() },
                     success: function(data) {
                         $("#queryResults").html(data);
+                        showResultsDiv("queryResults");
                     }
                 });
-            });       
+            });
         </script>
 
     </body>
