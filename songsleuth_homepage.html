@@ -246,7 +246,6 @@
 
                 <!-- The following divs are the query forms -->
 
-
                 <div id="divSongByArtist" class="formDiv">
                     <h2>Querying Songs By Artist</h2><br>
                     <form id="formSongByArtist" action="/action_page.php">
@@ -257,14 +256,16 @@
                     </form>
                 </div>
 
+                
+
                 <!--Album Artist Query Form-->
                 <div id="divAlbumByArtist" class="formDiv">
                     <h2>Querying Albums By Artist</h2><br>
-                    <form id="formAlbumByArtist" action="query_album_artist.php" method="POST">
+                    <form id="formAlbumByArtist" method="POST">
                         <label for="queryAlbumArtist">Artist Name:</label>
                         <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Michael Jackson" required="true">
 
-                        <button type="submit:">Search</button>
+                        <button type="submit">Search</button>
                     </form>
                 </div>
 
@@ -288,47 +289,29 @@
                     </form>
                 </div>
 
-                <!-- This is a simple example of a table to show data, this will not be present later-->
-                <div id="firstTable" class="tableDiv">
-                    <table>
-                        <tr>
-                            <th>Company</th>
-                            <th>Contact</th>
-                            <th>Country</th>
-                        </tr>
-                        <tr>
-                            <td>Alfreds Futterkiste</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Centro comercial Moctezuma</td>
-                            <td>Francisco Chang</td>
-                            <td>Mexico</td>
-                        </tr>
-                        <tr>
-                            <td>Ernst Handel</td>
-                            <td>Roland Mendel</td>
-                            <td>Austria</td>
-                        </tr>
-                        <tr>
-                            <td>Island Trading</td>
-                            <td>Helen Bennett</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Laughing Bacchus Winecellars</td>
-                            <td>Yoshi Tannamuri</td>
-                            <td>Canada</td>
-                        </tr>
-                        <tr>
-                            <td>Magazzini Alimentari Riuniti</td>
-                            <td>Giovanni Rovelli</td>
-                            <td>Italy</td>
-                        </tr>
-                    </table>
+                <!-- Query results table -->
+                <div id="queryResults">
+                    
                 </div>
             </div>
         </div>
+
+        <!-- Scripts to load the query results on the same page -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $("#formAlbumByArtist").submit(function(event) {
+                event.preventDefault();                
+
+                $.ajax({
+                    type: "POST",
+                    url: "query_album_artist.php",
+                    data: { queryAlbumArtist: $("#queryAlbumArtist").val() },
+                    success: function(data) {
+                        $("#queryResults").html(data);
+                    }
+                });
+            });       
+        </script>
+
     </body>
 </html>

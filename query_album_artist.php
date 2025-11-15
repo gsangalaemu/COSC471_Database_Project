@@ -9,6 +9,7 @@ $user = "root";
 $password = "";
 $database = "song_sleuth";
 
+// The artist the user input
 $artist = $_POST['queryAlbumArtist'];
 
 // Create connection to database
@@ -42,30 +43,13 @@ $result = $stmt->get_result();
 
 ?>
 
-<!DOCTYPE html>
-<head>
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
-</head>
-<body>
+
 
 <?php
 if ($result->num_rows> 0) {
+    // Print a table of results
     echo "<h1>" . "Albums by " . $artist . "</h1>";
     echo "<table>
         <tr>
@@ -86,11 +70,7 @@ if ($result->num_rows> 0) {
 } else {
     echo "<li>No matching results</li>";
 }
-?>
 
-</body>
-</html>
-<?php
 
 // Close the connection to the datebase
 $conn->close();
