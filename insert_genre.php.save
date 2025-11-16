@@ -1,0 +1,38 @@
+<?php
+include 'db_connection.php';
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Genre</title>
+</head>
+<body>
+
+<h2>Add Genre</h2>
+
+<form method="POST">
+    <label>Genre Name:</label>
+    <input type="text" name="genre_name" required><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name = $_POST['genre_name'];
+
+    $sql = "INSERT INTO genre (Genre_name) VALUES ('$name')";
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Genre added successfully.";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+?>
+
+</body>
+</html>
+

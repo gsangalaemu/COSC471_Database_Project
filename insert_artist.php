@@ -1,40 +1,34 @@
-<?php
-// Database info
-$host = "127.0.0.1";
-$user = "root";
-$password = "";
-$database = "song_sleuth";
-
-// Create connection to database
-$conn = new mysqli($host, $user, $password, $database);
-
-// Output an error if the connection to the database fails
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Testing the SQL query with a hardcoded insert, will need to change later
-$sql = "INSERT INTO ARTISTS(Artist_name)
-        VALUES ('John Coltrane')";
-?>
-
+<?php include 'db_connection.php'; ?>
 <!DOCTYPE html>
-<head></head>
+<html>
+<head>
+    <title>Add Artist</title>
+</head>
 <body>
 
+<h2>Add Artist</h2>
+
+<form method="POST">
+    <label>Artist Name:</label>
+    <input type="text" name="artist_name" required><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
 <?php
-if ($conn->query($sql) === TRUE) {
-    echo "Artist inserted succesfully";
-} else {
-    echo "Insert failed";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name = $_POST['artist_name'];
+
+    $sql = "INSERT INTO artists (Artist_name) VALUES ('$name')";
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Artist added successfully.";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 ?>
 
 </body>
 </html>
-<?php
-
-// Close the connection to the datebase
-$conn->close();
-
-?>
