@@ -145,7 +145,7 @@
 
             // Function that displays the results of a search query. The div
             // is hidden until after the query is run.
-               function showResultsDiv(divId) {
+            function showResultsDiv(divId) {
                 document.getElementById(divId).style.display = "block";
             }
         </script>
@@ -281,13 +281,14 @@
                     </form>
                 </div>
 
+                <!-- Songs By Genre Query Form -->
                 <div id="divSongByGenre" class="formDiv">
                     <h2>Query Songs By Genre</h2><br>
-                    <form id="formSongByGenre" action="/action_page.php">
+                    <form id="formSongByGenre" method="POST">
                         <label for="querySongGenre">Genre:</label>
                         <input type="text" id="querySongGenre" name="querySongGenre" placeholder="e.g. Depressive Black Metal" required="true">
 
-                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                        <button type="submit">Search</button>
                     </form>
                 </div>
 
@@ -334,6 +335,21 @@
                     type: "POST",
                     url: "query_album_artist.php",
                     data: { queryAlbumArtist: $("#queryAlbumArtist").val() },
+                    success: function(data) {
+                        $("#queryResults").html(data);
+                        showResultsDiv("queryResults");
+                    }
+                });
+            });
+
+            // Script to load Song Genre Query
+            $("#formSongByGenre").submit(function(event) {
+                event.preventDefault();                
+
+                $.ajax({
+                    type: "POST",
+                    url: "query_song_genre.php",
+                    data: { querySongGenre: $("#querySongGenre").val() },
                     success: function(data) {
                         $("#queryResults").html(data);
                         showResultsDiv("queryResults");
