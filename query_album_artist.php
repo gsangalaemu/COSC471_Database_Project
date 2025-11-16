@@ -1,8 +1,4 @@
 <?php
-// The book uses a very old and outdated method of connecting to a SQL
-// database with PHP. Looking at the W3 Schools articles and a little more
-// Googling, I think this is the best way to set it up.
-
 // Database info
 $host = "127.0.0.1";
 $user = "root";

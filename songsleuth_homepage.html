@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <style>
@@ -135,8 +136,7 @@
                 closeForm('divAlbumByArtist');
                 closeForm('divSongByGenre');
                 closeForm('divAlbumByGenre');
-                document.getElementById(divId).style.display = "block";
-                document.getElementById('firstTable').style.display = "none";
+                document.getElementById(divId).style.display = "block";                
             }
 
             function closeForm(divId) {
@@ -187,21 +187,21 @@
 
                 <div id="divAddArtist" class="formDiv">
                     <h2>Add New Artist</h2><br>
-                    <form id="formAddArtist" action="/action_page.php">
+                    <form id="formAddArtist" method="POST">
                         <label for="artistName">Artist Name:</label>
                         <input type="text" id="artistName" name="artistName" placeholder="e.g. John Smith" required="true">
 
                         <label for="yearsStart">Years Active (Start):</label>
-                        <input type="text" id="yearsStart" name="yearsStart" placeholder="e.g. 1/1/1970">
+                        <input type="text" id="yearsStart" name="yearsStart" placeholder="YYYY or YYYY-MM-DD">
 
                         <label for="yearsEnd">Years Active (End):</label>
-                        <input type="text" id="yearsEnd" name="yearsEnd" placeholder="e.g. 12/31/2999">
+                        <input type="text" id="yearsEnd" name="yearsEnd" placeholder="YYYY or YYYY-MM-DD">
 
                         
                         <label for="groupAffils">Group Affiliations:</label>
                         <textarea id="groupAffils" name="groupAffils" placeholder="e.g. The Beatles, Queens of the Stone Age, Metallica"></textarea>
 
-                        <input type="submit" value="Submit">
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
 
@@ -309,11 +309,39 @@
             </div>
         </div>
 
-        <!-- Scripts to load the query results on the same page -->
+        <!-- Neded for the ajax/jquery scripts to function -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Scripts to load the add new results -->
+        <script>
+            // Script to to display the results of the add new artist
+            $("#formAddArtist").submit(function(event) {
+                event.preventDefault();                
+
+                $.ajax({
+                    type: "POST",
+                    url: "add_new_artist.php",
+                    data: {
+                        artistName: $("#artistName").val(),
+                        yearsStart: $("#yearsStart").val(),
+                        yearsEnd: $("#yearsEnd").val(),
+                        groupAffils: $("#groupAffils").val()
+                    },                    
+                    success: function(msg) {
+                        alert(msg);
+                    },
+                    error: function() {
+                        alert("Artist not added.");
+                    }
+                });
+            });
+        </script>
+
+        <!-- Scripts to load the query results on the same page -->
+       
         <script>
             // Script to load Song Artist Query
-                  $("#formSongByArtist").submit(function(event) {
+            $("#formSongByArtist").submit(function(event) {
                 event.preventDefault();                
 
                 $.ajax({
@@ -373,6 +401,6 @@
             });
 
         </script>
-
+      
     </body>
 </html>
