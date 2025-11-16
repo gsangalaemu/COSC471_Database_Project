@@ -1,20 +1,8 @@
 <?php
-// Database info
-$host = "127.0.0.1";
-$user = "root";
-$password = "";
-$database = "song_sleuth";
+include 'db_connection.php';
 
 // The artist the user input
 $artist = $_POST['queryAlbumArtist'];
-
-// Create connection to database
-$conn = new mysqli($host, $user, $password, $database);
-
-// Output an error if the connection to the database fails
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // We want to print the artist name, the album name, the release date, and the genre.
 // We need to join the ARTISTS and ALBUMS tables on the Artist_id column

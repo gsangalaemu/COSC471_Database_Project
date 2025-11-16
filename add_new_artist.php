@@ -1,23 +1,11 @@
 <?php
-// Database info
-$host = "127.0.0.1";
-$user = "root";
-$password = "";
-$database = "song_sleuth";
+include 'db_connection.php';
 
 // The artist the user input
 $artist = $_POST['artistName'];
 $yearStart = $_POST['yearsStart'];
 $yearEnd = $_POST['yearsEnd'];
 $group = $_POST['groupAffils'];
-
-// Create connection to database
-$conn = new mysqli($host, $user, $password, $database);
-
-// Output an error if the connection to the database fails
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "INSERT INTO ARTISTS(Artist_name)
         VALUES(?)";

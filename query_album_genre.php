@@ -1,24 +1,8 @@
 <?php
-// The book uses a very old and outdated method of connecting to a SQL
-// database with PHP. Looking at the W3 Schools articles and a little more
-// Googling, I think this is the best way to set it up.
-
-// Database info
-$host = "127.0.0.1";
-$user = "root";
-$password = "";
-$database = "song_sleuth";
+include 'db_connection.php';
 
 // The artist the user input
 $genre = $_POST['queryAlbumGenre'];
-
-// Create connection to database
-$conn = new mysqli($host, $user, $password, $database);
-
-// Output an error if the connection to the database fails
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // We want to print the artist name, the album name, the release date, and the genre.
 // We have to join quite a few tables to be able to print all the data that we want
