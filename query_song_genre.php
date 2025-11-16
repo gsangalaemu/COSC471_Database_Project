@@ -22,7 +22,9 @@ if ($conn->connect_error) {
 
 // We want to print the artist name, the album name, the release date, and the genre.
 // We have to join quite a few tables to be able to print all the data that we want
-// GROUP_CONCAT is used so that albums with multiple genres will display all genres
+// GROUP_CONCAT is needed so that songs that appear on multiple albums will list
+// all albums the song appears on, as well as songs that have multiple
+// featured/guest/performing artists all appear in one cell.
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT A.Artist_name, S.Song_name, S.Year, G.Genre_name, S.Song_id,
                GROUP_CONCAT(B.Album_name) AS Album_name,
@@ -69,6 +71,7 @@ if ($result->num_rows> 0) {
 } else {
     echo "<li>No matching results</li>";
 }
+
 // Close the connection to the datebase
 $conn->close();
 

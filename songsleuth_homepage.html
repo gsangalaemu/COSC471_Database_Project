@@ -292,19 +292,19 @@
                     </form>
                 </div>
 
+                <!-- Albums By Genre Query Form -->
                 <div id="divAlbumByGenre" class="formDiv">
                     <h2>Query Albums By Genre</h2><br>
-                    <form id="formAlbumByArtist" action="/action_page.php">
-                        <label for="queryAlbumArtist">Genre:</label>
-                        <input type="text" id="queryAlbumArtist" name="queryAlbumArtist" placeholder="e.g. Depressive Black Metal" required="true">
+                    <form id="formAlbumByGenre" method="POST">
+                        <label for="queryAlbumGenre">Genre:</label>
+                        <input type="text" id="queryAlbumGenre" name="queryAlbumGenre" placeholder="e.g. Depressive Black Metal" required="true">
 
-                        <input type="submit" value="Submit" onclick="tempShowTable('firstTable')">
+                        <button type="submit">Search</button>
                     </form>
                 </div>
 
                 <!-- Query results table -->
-                <div id="queryResults" class="tableDiv">
-                    
+                <div id="queryResults" class="tableDiv">                    
                 </div>
             </div>
         </div>
@@ -356,6 +356,22 @@
                     }
                 });
             });
+
+            // Script to load Album Genre Query
+            $("#formAlbumByGenre").submit(function(event) {
+                event.preventDefault();                
+
+                $.ajax({
+                    type: "POST",
+                    url: "query_album_genre.php",
+                    data: { queryAlbumGenre: $("#queryAlbumGenre").val() },
+                    success: function(data) {
+                        $("#queryResults").html(data);
+                        showResultsDiv("queryResults");
+                    }
+                });
+            });
+
         </script>
 
     </body>

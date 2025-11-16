@@ -10,7 +10,7 @@ $password = "";
 $database = "song_sleuth";
 
 // The artist the user input
-$artist = $_POST['queryAlbumArtist'];
+$genre = $_POST['queryAlbumGenre'];
 
 // Create connection to database
 $conn = new mysqli($host, $user, $password, $database);
@@ -21,9 +21,7 @@ if ($conn->connect_error) {
 }
 
 // We want to print the artist name, the album name, the release date, and the genre.
-// We need to join the ARTISTS and ALBUMS tables on the Artist_id column
-// We also need to join GENRES and ALBUM_GENRES tables on th Genre_id column
-// We finally need to join the ALBUMS and ALBUM_GENRES tables on the Album_id column
+// We have to join quite a few tables to be able to print all the data that we want
 // GROUP_CONCAT is used so that albums with multiple genres will display all genres
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT Artist_name, Album_name, Release_date, 
@@ -33,24 +31,24 @@ $sql = "SELECT Artist_name, Album_name, Release_date,
         WHERE A.Artist_id = B.Album_artist
               AND G.Genre_id = L.Genre_id
               AND B.Album_id = L.Album_id
-              AND Artist_name COLLATE utf8_unicode_ci = ?
+              AND Genre_name COLLATE utf8_unicode_ci = ?
         GROUP BY B.Album_id";
 
 // Prepare and bind the the variable
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $artist);
+$stmt->bind_param("s", $genre);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows> 0) {
     // Print a table of results
-    echo "<h1>" . "Albums by " . $artist . "</h1>";
+    echo "<h1>" . "Songs matching " . $genre . "</h1>";
     echo "<table>
         <tr>
             <th>Artist</th>
             <th>Album</th>
             <th>Release Date</th>
-            <th>Genre</th>
+            <th>Genre</th>  
         </tr>";
     while ($row = $result->fetch_assoc()) {
         echo "<tr>" .
