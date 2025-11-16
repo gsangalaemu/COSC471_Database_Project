@@ -22,16 +22,24 @@ if ($conn->connect_error) {
 
 // We want to print the artist name, the album name, the release date, and the genre.
 // We have to join quite a few tables to be able to print all the data that we want
-// GROUP_CONCAT is used so that albums with multiple genres will display all genres
+// The inner query is needed to be able to select the albums that match the user
+// input genre, and then we can print the properly formatted results with multiple
+// genres.
+// GROUP_CONCAT is used so that albums with multiple genres will display all genres,
+// not just the genre the user searched, in a single cell.
 // The COLLATE is needed to ignore case sensitivity issues
-$sql = "SELECT Artist_name, Album_name, Release_date, 
-               GROUP_CONCAT(Genre_name) AS Genre
-        FROM ARTISTS AS A, ALBUMS AS B,
-             GENRES AS G, ALBUM_GENRES AS L
-        WHERE A.Artist_id = B.Album_artist
-              AND G.Genre_id = L.Genre_id
-              AND B.Album_id = L.Album_id
-              AND Genre_name COLLATE utf8_unicode_ci = ?
+$sql = "SELECT A.Artist_name, B.Album_name, B.Release_date, 
+               GROUP_CONCAT(G.Genre_name) AS Genre
+        FROM ARTISTS AS A
+        JOIN ALBUMS AS B ON B.Album_artist = A.Artist_id
+        JOIN ALBUM_GENRES AS AG ON AG.Album_id = B.Album_id
+        JOIN GENRES AS G ON G.Genre_id = AG.Genre_id        
+        WHERE B.Album_id IN (SELECT BI.Album_id
+                             FROM ARTISTS AS AI
+                             JOIN ALBUMS AS BI ON BI.Album_artist = AI.Artist_id
+                             JOIN ALBUM_GENRES AS AGI ON AGI.Album_id = BI.Album_id
+                             JOIN GENRES AS GI ON GI.Genre_id = AGI.Genre_id        
+        WHERE Genre_name COLLATE utf8_unicode_ci = ?)
         GROUP BY B.Album_id";
 
 // Prepare and bind the the variable
@@ -42,7 +50,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows> 0) {
     // Print a table of results
-    echo "<h1>" . "Songs matching " . $genre . "</h1>";
+    echo "<h1>" . "Albums matching " . $genre . "</h1>";
     echo "<table>
         <tr>
             <th>Artist</th>
