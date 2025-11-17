@@ -112,25 +112,28 @@ if (!empty($aa_id)) {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $artistAlbum_id = $row["Album_id"];
-            } 
+            }
+
+            $sql = "INSERT INTO SONG_ALBUMS(Song_id, Album_id)
+                    VALUES(?, ?)";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $song_id, $artistAlbum_id);
+            $stmt->execute();         
+
+            echo "Successfully marked song as appearing on " . $songAlbum . "\n\n";
+
         } else {
         echo "Provided album \"" . $songAlbum . "\" not found, please add to Album table first!\n\n";
         }
 
-        $sql = "INSERT INTO SONG_ALBUMS(Song_id, Album_id)
-                VALUES(?, ?)";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $song_id, $artistAlbum_id);
-        $stmt->execute();         
-
-        echo "Successfully marked song as appearing on " . $songAlbum . "\n\n";
+       
 
         // If a track number was also provided then UPDATE that as well
         if(!empty($trackNum)) {
             $trackNum = (int)$trackNum; // Same dirty trick to make sure the user input a track number
             if ($trackNum < 1) {
-                echo "Track number must be a positive integer";
+                echo "Track number must be a positive integer\n\n";
             } else {
                 $sql = "UPDATE SONG_ALBUMS
                         SET Track_number = ?
@@ -161,19 +164,21 @@ if (!empty($aa_id)) {
             while ($row = $result->fetch_assoc()) {
                 $songGenre_id = $row["Genre_id"];
             } 
+
+            $sql = "UPDATE SONGS
+                SET GENRE = ?
+                WHERE Song_id = ?";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $songGenre_id, $song_id);
+            $stmt->execute();    
+            
+            echo "Set song song as " . $songGenre . "\n\n";
         } else {
         echo "Provided genre \"" . $songGenre . "\" not found, please select a valid genre!\n\n";
         }
 
-        $sql = "UPDATE SONGS
-                SET GENRE = ?
-                WHERE Song_id = ?";
-
-       $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $songGenre_id, $song_id);
-        $stmt->execute();    
         
-
     }
    
 
