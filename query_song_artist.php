@@ -12,7 +12,7 @@ $artist = $_POST['querySongArtist'];
 // all albums the song appears on, as well as songs that have multiple
 // featured/guest/performing artists all appear in one cell.
 // The COLLATE is needed to ignore case sensitivity issues
-$sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name,
+$sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name, S.Song_length,
                GROUP_CONCAT(B.Album_name) AS Album_name,
                GROUP_CONCAT(FA.Artist_name) AS Performing_artist
         FROM ARTISTS AS A
@@ -42,7 +42,8 @@ if ($result->num_rows> 0) {
         <tr>
             <th>Album  Artist</th>
             <th>Featured Artist(s)</th>
-            <th>Song</th>            
+            <th>Song</th>
+            <th>Length</th>
             <th>Year</th>
             <th>Appears On</th>
             <th>Genre</th>
@@ -51,7 +52,8 @@ if ($result->num_rows> 0) {
         echo "<tr>" .
         "<td>" . $row["Artist_name"] . "</td>" .
         "<td>" . $row["Performing_artist"] . "</td>" .
-        "<td>" . $row["Song_name"] . "</td>" .        
+        "<td>" . $row["Song_name"] . "</td>" .
+        "<td>" . $row["Song_length"] . "</td>" .  
         "<td>" . $row["Release_year"] . "</td>" .
         "<td>" . $row["Album_name"] . "</td>" .
         "<td>" . $row["Genre_name"] . "</td>" .
