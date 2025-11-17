@@ -48,13 +48,12 @@ if (!empty($aa_id)) {
    
     // UPDATE Year
     if(!empty($aa_id) && !empty($songYear)) {
-
         
         // PHP converts Strings that start with non-numerics to the integer 0
         // So this is kinda a dirty way to make sure the user input an integer
         $yearValidInt = true; // Assume true
         $songYear = (int)$songYear;
-        
+
         if ($songYear == 0) {
             echo "Year must be an integer value.\n\n";            
             $yearValidInt = false; // Set false on failure
@@ -68,9 +67,26 @@ if (!empty($aa_id)) {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ii", $songYear, $song_id);
             $stmt->execute();
-        }
-        
+        }        
     }
+
+    // UPDATE Song Length
+    if (!empty($aa_id) && !empty($songLength)) {
+        $format = 'H:i:s';
+        $songLengthFormatted = DateTime::createFromFormat($format, $songLength);
+        if ($songLengthFormatted === false) {
+            echo "Invalid time format. Please enter as HH:MM:SS (include leading zeros).";
+        } else {
+            $sql = "UPDATE SONGS AS S
+                    SET Song_length = ?
+                    WHERE Song_id = ?";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $songLength, $song_id);
+            $stmt->execute();
+        }
+    }
+   
 
 
 
