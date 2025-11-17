@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
         $aa_id = $row["Artist_id"];
     } 
 } else {
-        echo "Provided artist " . $songAlbumArtist . " not found, please add to Artist table first!";
+        echo "Provided artist \"" . $songAlbumArtist . "\" not found, please add to Artist table first!";
 }
 
 // Insert the new song into the SONGS table if the artist exists
@@ -114,13 +114,15 @@ if (!empty($aa_id)) {
                 $artistAlbum_id = $row["Album_id"];
             } 
         } else {
-        echo "Provided album " . $songAlbum . " not found, please add to Album table first!\n\n";
+        echo "Provided album \"" . $songAlbum . "\" not found, please add to Album table first!\n\n";
         }
 
         $sql = "INSERT INTO SONG_ALBUMS(Song_id, Album_id)
                 VALUES(?, ?)";
 
-        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $song_id, $artistAlbum_id);
+        $stmt->execute();         
 
         echo "Successfully marked song as appearing on " . $songAlbum . "\n\n";
 
@@ -143,6 +145,36 @@ if (!empty($aa_id)) {
         }
     }
 
+    // Add the genre for the song
+    if (!empty($aa_id) && !empty($songGenre)) {
+        // Make sure the genre exists
+        $sql = "SELECT Genre_id
+                FROM GENRES
+                WHERE Genre_name COLLATE utf8_unicode_ci = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $songGenre);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $songGenre_id = $row["Genre_id"];
+            } 
+        } else {
+        echo "Provided genre \"" . $songGenre . "\" not found, please select a valid genre!\n\n";
+        }
+
+        $sql = "UPDATE SONGS
+                SET GENRE = ?
+                WHERE Song_id = ?";
+
+       $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $songGenre_id, $song_id);
+        $stmt->execute();    
+        
+
+    }
    
 
 
