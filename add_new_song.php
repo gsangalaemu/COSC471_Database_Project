@@ -71,7 +71,7 @@ if (!empty($aa_id)) {
             $stmt->bind_param("ii", $songYear, $song_id);
             $stmt->execute();
 
-            echo "Successfully set song release year to " . $songYear . "\n\n";
+            echo "Set song release year to " . $songYear . "\n\n";
         }        
     }
 
@@ -90,7 +90,7 @@ if (!empty($aa_id)) {
             $stmt->bind_param("si", $songLength, $song_id);
             $stmt->execute();
 
-            echo "Successfully set song length to " . $songLength . "\n\n";
+            echo "Set song length to " . $songLength . "\n\n";
         }
     }
 
@@ -121,13 +121,11 @@ if (!empty($aa_id)) {
             $stmt->bind_param("ii", $song_id, $artistAlbum_id);
             $stmt->execute();         
 
-            echo "Successfully marked song as appearing on " . $songAlbum . "\n\n";
+            echo "Marked song as appearing on " . $songAlbum . "\n\n";
 
         } else {
         echo "Provided album \"" . $songAlbum . "\" not found, please add to Album table first!\n\n";
-        }
-
-       
+        }      
 
         // If a track number was also provided then UPDATE that as well
         if(!empty($trackNum)) {
@@ -173,14 +171,42 @@ if (!empty($aa_id)) {
             $stmt->bind_param("ii", $songGenre_id, $song_id);
             $stmt->execute();    
             
-            echo "Set song song as " . $songGenre . "\n\n";
+            echo "Set song genre as " . $songGenre . "\n\n";
         } else {
         echo "Provided genre \"" . $songGenre . "\" not found, please select a valid genre!\n\n";
-        }
-
-        
+        }        
     }
    
+    // Add a guest artist
+    if (!empty($aa_id) && !empty($performingArtist)) {
+        // Make sure the guest artist exists in the ARTIST table
+        $sql = "SELECT Artist_id
+        FROM ARTISTS
+        WHERE Artist_name COLLATE utf8_unicode_ci = ?";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $performingArtist);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $guestArtist_id = $row["Artist_id"];
+
+                $sql = "INSERT INTO PERFORMING_ARTIST(Song_id, Featured_artist)
+                        VALUES(?, ?)";
+
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $song_id, $guestArtist_id);
+                $stmt->execute(); 
+
+                echo "Added " . $performingArtist . " as a guest artist\n\n";
+            } 
+        } else {
+                echo "Provided guest artist \"" . $performingArtist . "\" not found, please add to Artist table first!";
+        }
+
+    }
 
 
 
