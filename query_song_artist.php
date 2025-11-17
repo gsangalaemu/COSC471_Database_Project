@@ -21,7 +21,7 @@ $sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name,
         LEFT JOIN ARTISTS AS FA ON FA.Artist_id = PA.Featured_artist
         LEFT JOIN GENRES AS G ON G.Genre_id = S.Genre
         LEFT JOIN SONG_ALBUMS AS SA ON SA.Song_id = S.Song_id
-        JOIN ALBUMS AS B ON B.Album_id = SA.Album_id
+        LEFT JOIN ALBUMS AS B ON B.Album_id = SA.Album_id
         WHERE A.Artist_name COLLATE utf8_unicode_ci = ?
               OR PA.Featured_artist IN (SELECT Artist_id
                                         FROM ARTISTS

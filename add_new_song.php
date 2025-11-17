@@ -117,14 +117,30 @@ if (!empty($aa_id)) {
         echo "Provided album " . $songAlbum . " not found, please add to Album table first!\n\n";
         }
 
-        $sql = "INSERT INTO SONG_ALBUMS(Song_id, ALbum_id)
+        $sql = "INSERT INTO SONG_ALBUMS(Song_id, Album_id)
                 VALUES(?, ?)";
 
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $song_id, $artistAlbum_id);
-        $stmt->execute();
+        
 
         echo "Successfully marked song as appearing on " . $songAlbum . "\n\n";
+
+        // If a track number was also provided then UPDATE that as well
+        if(!empty($trackNum)) {
+            $trackNum = (int)$trackNum; // Same dirty trick to make sure the user input a track number
+            if ($trackNum < 1) {
+                echo "Track number must be a positive integer";
+            } else {
+                $sql = "UPDATE SONG_ALBUMS
+                        SET Track_number = ?
+                        WHERE Song_id = ? AND Album_id = ?";
+
+               $stmt = $conn->prepare($sql);
+               $stmt->bind_param("iii", $trackNum, $song_id, $Album_id);
+               $stmt->execute(); 
+
+               echo "Set track number as " . $trackNum . "\n\n";
+            }
+        }
     }
 
    
