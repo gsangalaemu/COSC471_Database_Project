@@ -185,6 +185,7 @@
 
                 <!-- The following divs are the add forms -->
 
+                <!-- Add New Artist Form -->
                 <div id="divAddArtist" class="formDiv">
                     <h2>Add New Artist</h2><br>
                     <form id="formAddArtist" method="POST">
@@ -205,9 +206,10 @@
                     </form>
                 </div>
 
+                <!-- Add New Song Form -->
                 <div id="divAddSong" class="formDiv">
                     <h2>Add New Song</h2><br>
-                    <form id="formAddSong" action="/action_page.php">
+                    <form id="formAddSong" method="POST">
                         <label for="songName">Song Name:</label>
                         <input type="text" id="songName" name="songName" placeholder="Song name" required="true">
 
@@ -221,7 +223,7 @@
                         <input type="text" id="trackNum" name="trackNum" placeholder="Where in the album the song is">
                         
                         <label for="performingArtists">Performing Artist(s):</label>
-                        <textarea id="performingArtists" name="performingArtists" placeholder="List each performing artist, seperated by commas"></textarea>
+                        <textarea id="performingArtist" name="performingArtist" placeholder="List each performing artist, seperated by commas"></textarea>
 
                         <label for="songGenre">Genre:</label>
                         <input type="text" id="songGenre" name="songGenre" placeholder="List one genre the song falls under">
@@ -314,7 +316,7 @@
 
         <!-- Scripts to load the add new results -->
         <script>
-            // Script to to display the results of the add new artist
+            // Script to to display the results of adding a new artist
             $("#formAddArtist").submit(function(event) {
                 event.preventDefault();                
 
@@ -335,10 +337,36 @@
                     }
                 });
             });
+
+            // Script to to display the results of adding a new song
+            $("#formAddSong").submit(function(event) {
+                event.preventDefault();                
+
+                $.ajax({
+                    type: "POST",
+                    url: "add_new_song.php",
+                    data: {
+                        songName: $("#songName").val(),
+                        songAlbumArtist: $("#songAlbumArtist").val(),
+                        songAlbum: $("#songAlbum").val(),
+                        trackNum: $("#trackNum").val(),
+                        performingArtist: $("#performingArtist").val(),
+                        songGenre: $("#songGenre").val(),
+                        songYear: $("#songYear").val(),
+                        songLength: $("#songLength").val()
+                    },                    
+                    success: function(msg) {
+                        alert(msg);
+                    },
+                    error: function() {
+                        alert("Song not added.");
+                    }
+                });
+            });
+            
         </script>
 
-        <!-- Scripts to load the query results on the same page -->
-       
+        <!-- Scripts to load the query results on the same page -->       
         <script>
             // Script to load Song Artist Query
             $("#formSongByArtist").submit(function(event) {

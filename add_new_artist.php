@@ -7,6 +7,7 @@ $yearStart = $_POST['yearsStart'];
 $yearEnd = $_POST['yearsEnd'];
 $group = $_POST['groupAffils'];
 
+// Insert the new artist into the ARTISTS table
 $sql = "INSERT INTO ARTISTS(Artist_name)
         VALUES(?)";
 
@@ -55,7 +56,7 @@ if (!empty($yearStart) && !empty($yearEnd)) {
 if (!empty($group)) {
     // Check that the group affiliation exists in the artist table
     $sql = "SELECT Artist_id
-            FROM Artists
+            FROM ARTISTS
             WHERE Artist_name = ?";
     
     $stmt = $conn->prepare($sql);
@@ -64,6 +65,7 @@ if (!empty($group)) {
 
     $result = $stmt->get_result();
 
+    // Add the affiliation if the artist exist, else print an error asking the user to add it first
     if ($result->num_rows > 0) {
 
         while ($row = $result->fetch_assoc()) {
@@ -75,7 +77,9 @@ if (!empty($group)) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $artist_id, $group_id);
         $stmt->execute();
-    }  
+    } else {
+        echo "Provided group affiliation " . $group . " not found, please add to Artist table first!\n\n";
+    }
 }
 
 if (!empty($artist_id)) {

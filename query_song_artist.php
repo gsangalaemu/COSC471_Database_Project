@@ -12,7 +12,7 @@ $artist = $_POST['querySongArtist'];
 // all albums the song appears on, as well as songs that have multiple
 // featured/guest/performing artists all appear in one cell.
 // The COLLATE is needed to ignore case sensitivity issues
-$sql = "SELECT A.Artist_name, S.Song_name, S.Year, G.Genre_name,
+$sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name,
                GROUP_CONCAT(B.Album_name) AS Album_name,
                GROUP_CONCAT(FA.Artist_name) AS Performing_artist
         FROM ARTISTS AS A
