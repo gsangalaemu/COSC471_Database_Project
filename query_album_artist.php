@@ -12,12 +12,11 @@ $artist = $_POST['queryAlbumArtist'];
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT Artist_name, Album_name, Release_date, 
                GROUP_CONCAT(Genre_name) AS Genre
-        FROM ARTISTS AS A, ALBUMS AS B,
-             GENRES AS G, ALBUM_GENRES AS L
-        WHERE A.Artist_id = B.Album_artist
-              AND G.Genre_id = L.Genre_id
-              AND B.Album_id = L.Album_id
-              AND Artist_name COLLATE utf8_unicode_ci = ?
+        FROM ARTISTS AS A
+        JOIN ALBUMS AS B ON A.Artist_id = B.Album_artist
+        LEFT JOIN ALBUM_GENRES AS AG ON B.Album_id = AG.Album_id
+        LEFT JOIN GENRES AS G ON AG.Genre_id = G.Genre_id
+        WHERE Artist_name COLLATE utf8_unicode_ci = ?
         GROUP BY B.Album_id";
 
 // Prepare and bind the the variable

@@ -15,7 +15,7 @@ $songLength = $_POST['songLength'];
 // else print an error asking them to add the artist first
 $sql = "SELECT Artist_id
         FROM ARTISTS
-        WHERE Artist_name = ?";
+        WHERE Artist_name COLLATE utf8_unicode_ci = ?";
         
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $songAlbumArtist);
@@ -38,6 +38,9 @@ if (!empty($aa_id)) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("si", $songName, $aa_id);
     $stmt->execute();
+
+
+    echo $songName . " successfully added to the database!\n\n";
 
     // Track the auto-incremented pk of the new song
     // We'll use this for the other INSERT opererations
@@ -67,6 +70,8 @@ if (!empty($aa_id)) {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ii", $songYear, $song_id);
             $stmt->execute();
+
+            echo "Successfully set song release year to " . $songYear . "\n\n";
         }        
     }
 
@@ -84,8 +89,44 @@ if (!empty($aa_id)) {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $songLength, $song_id);
             $stmt->execute();
+
+            echo "Successfully set song length to " . $songLength . "\n\n";
         }
     }
+
+    // Next we'll make INSERTS into other tables that relate to the
+    // SONGS table via an fk
+
+    // Add the album the song appears on
+    if (!empty($aa_id) && !empty($songAlbum)) {
+        // Make sure the album exists in the database first
+        $sql = "SELECT Album_id
+                FROM ALBUMS
+                WHERE Album_name COLLATE utf8_unicode_ci = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $songAlbum);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $artistAlbum_id = $row["Album_id"];
+            } 
+        } else {
+        echo "Provided album " . $songAlbum . " not found, please add to Album table first!\n\n";
+        }
+
+        $sql = "INSERT INTO SONG_ALBUMS(Song_id, ALbum_id)
+                VALUES(?, ?)";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $song_id, $artistAlbum_id);
+        $stmt->execute();
+
+        echo "Successfully marked song as appearing on " . $songAlbum . "\n\n";
+    }
+
    
 
 

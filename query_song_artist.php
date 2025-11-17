@@ -19,8 +19,8 @@ $sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name,
         JOIN SONGS AS S ON S.Album_artist = A.Artist_id
         LEFT JOIN PERFORMING_ARTIST AS PA ON PA.Song_id = S.Song_id
         LEFT JOIN ARTISTS AS FA ON FA.Artist_id = PA.Featured_artist
-        JOIN GENRES AS G ON G.Genre_id = S.Genre
-        JOIN SONG_ALBUMS AS SA ON SA.Song_id = S.Song_id
+        LEFT JOIN GENRES AS G ON G.Genre_id = S.Genre
+        LEFT JOIN SONG_ALBUMS AS SA ON SA.Song_id = S.Song_id
         JOIN ALBUMS AS B ON B.Album_id = SA.Album_id
         WHERE A.Artist_name COLLATE utf8_unicode_ci = ?
               OR PA.Featured_artist IN (SELECT Artist_id
@@ -52,7 +52,7 @@ if ($result->num_rows> 0) {
         "<td>" . $row["Artist_name"] . "</td>" .
         "<td>" . $row["Performing_artist"] . "</td>" .
         "<td>" . $row["Song_name"] . "</td>" .        
-        "<td>" . $row["Year"] . "</td>" .
+        "<td>" . $row["Release_year"] . "</td>" .
         "<td>" . $row["Album_name"] . "</td>" .
         "<td>" . $row["Genre_name"] . "</td>" .
         "</tr>";
