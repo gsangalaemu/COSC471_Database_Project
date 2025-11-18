@@ -13,8 +13,8 @@ $artist = $_POST['querySongArtist'];
 // featured/guest/performing artists all appear in one cell.
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name, S.Song_length,
-               GROUP_CONCAT(B.Album_name) AS Album_name,
-               GROUP_CONCAT(FA.Artist_name) AS Performing_artist
+               GROUP_CONCAT(B.Album_name SEPARATOR ', ') AS Album_name,
+               GROUP_CONCAT(FA.Artist_name SEPARATOR ', ') AS Performing_artist
         FROM ARTISTS AS A
         JOIN SONGS AS S ON S.Album_artist = A.Artist_id
         LEFT JOIN PERFORMING_ARTIST AS PA ON PA.Song_id = S.Song_id

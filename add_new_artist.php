@@ -20,6 +20,10 @@ $stmt->execute();
 // We'll use this for the other INSERT opererations
 $artist_id = $conn->insert_id;
 
+if (!empty($artist_id)) {
+    echo $artist . " successfully added to the artist database!\n\n";
+}
+
 // Check if the user provided start and end years, add
 // them if so. Because an artist may have multiple start
 // and ends dates and each is optional, we check what
@@ -54,36 +58,43 @@ if (!empty($yearStart) && !empty($yearEnd)) {
 
 // Check if a group affiliation was provided, insert if so
 if (!empty($group)) {
-    // Check that the group affiliation exists in the artist table
-    $sql = "SELECT Artist_id
-            FROM ARTISTS
-            WHERE Artist_name = ?";
     
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $group);
-    $stmt->execute();
+    // Seperate multiple group affiliations into an array
+    $groupArray = explode(",", $group); 
 
-    $result = $stmt->get_result();
+    foreach ($groupArray as $groupItem) {
+        $groupItem = trim($groupItem); // Trim leading and trailing white space
 
-    // Add the affiliation if the artist exist, else print an error asking the user to add it first
-    if ($result->num_rows > 0) {
-
-        while ($row = $result->fetch_assoc()) {
-            $group_id = $row["Artist_id"];
-        }
-
-        $sql = "INSERT INTO AFFILIATIONS(Artist_id, Group_id)
-            VALUES(?, ?)";
+        // Check that the group affiliation exists in the artist table
+        $sql = "SELECT Artist_id
+                FROM ARTISTS
+                WHERE Artist_name = ?";
+        
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $artist_id, $group_id);
+        $stmt->bind_param("s", $groupItem);
         $stmt->execute();
-    } else {
-        echo "Provided group affiliation " . $group . " not found, please add to Artist table first!\n\n";
-    }
-}
 
-if (!empty($artist_id)) {
-    echo $artist . " successfully added to the artist database!";
+        $result = $stmt->get_result();
+
+        // Add the affiliation if the artist exist, else print an error asking the user to add it first
+        if ($result->num_rows > 0) {
+
+            while ($row = $result->fetch_assoc()) {
+                $group_id = $row["Artist_id"];
+            }
+
+            $sql = "INSERT INTO AFFILIATIONS(Artist_id, Group_id)
+                VALUES(?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $artist_id, $group_id);
+            $stmt->execute();
+
+            echo "Added affiliation " . $groupItem . "\n\n";
+
+        } else {
+            echo "Provided affiliation " . $groupItem . " not found, please add to Artist table first!\n\n";
+        }
+    }    
 }
 
 // Close the connection to the datebase

@@ -91,12 +91,13 @@ if (!empty($aa_id)) {
 
     // Add the genre for the album
     if (!empty($aa_id) && !empty($albumGenre)) {
+        
         // Seperate multilple genres into an array
         $genreArray = explode(",", $albumGenre);
 
         foreach ($genreArray as $genre) {
 
-            $genre = trim($genre); // Trim leading annd trailing white space
+            $genre = trim($genre); // Trim leading and trailing white space
 
             // Make sure the genre exists
             $sql = "SELECT Genre_id
