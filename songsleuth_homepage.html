@@ -197,10 +197,13 @@
 
                         <label for="yearsEnd">Years Active (End):</label>
                         <input type="text" id="yearsEnd" name="yearsEnd" placeholder="YYYY or YYYY-MM-DD">
-
                         
                         <label for="groupAffils">Group Affiliations:</label>
-                        <textarea id="groupAffils" name="groupAffils" placeholder="e.g. The Beatles, Queens of the Stone Age, Metallica"></textarea>
+
+                        <textarea
+                            id="groupAffils"
+                            name="groupAffils"
+                            placeholder="e.g. The Beatles, Queens of the Stone Age, Metallica (Member of or frequent collaborator. Comma seperated for multiple)."></textarea>
 
                         <button type="submit">Submit</button>
                     </form>
@@ -222,11 +225,14 @@
                         <label for="trackNum">Track No.:</label>
                         <input type="text" id="trackNum" name="trackNum" placeholder="Where in the album the song is">
                         
-                        <label for="performingArtists">Guest Artist:</label>
-                        <input type="text" id="performingArtist" name="performingArtist" placeholder="Add a guest artist on the song"></textarea>
+                        <label for="performingArtists">Performing Artist:</label>
+                        <textarea
+                            id="performingArtist"
+                            name="performingArtist"
+                            placeholder="Add any guest artists on the song (comma seperated)"></textarea>
 
                         <label for="songGenre">Genre:</label>
-                        <input type="text" id="songGenre" name="songGenre" placeholder="List one genre the song falls under">
+                        <input type="text" id="songGenre" name="songGenre" placeholder="Specify one genre the song falls under">
 
                         <label for="songYear">Year:</label>
                         <input type="text" id="songYear" name="songYear" placeholder="Year the song was released, like 1996">
@@ -243,7 +249,7 @@
                     <h2>Add New Album</h2><br>
                     <form id="formAddAlbum" method="POST">
                         <label for="albumName">Album Name:</label>
-                        <input type="text" id="albumName" name="albumName" placeholder="Use the name of the song if the album is wrapping a single" required="true">
+                        <input type="text" id="albumName" name="albumName" placeholder="Album or single name" required="true">
 
                         <label for="albumArtist">Album Artist:</label>
                         <input type="text" id="albumArtist" name="albumArtist" placeholder="The primary artist of the album">
@@ -253,7 +259,7 @@
 
                         
                         <label for="albumGenre">Genre(s):</label>
-                        <textarea id="albumGenre" name="albumGenre" placeholder="List each genre that the song falls under, comma seperated"></textarea>
+                        <textarea id="albumGenre" name="albumGenre" placeholder="List each genre that the song falls under (comma seperated)"></textarea>
 
                         <input type="submit" value="Submit">
                     </form>
@@ -363,8 +369,7 @@
                         alert("Song not added.");
                     }
                 });
-            });
-            
+            });            
 
             // Script to to display the results of adding a new album
             $("#formAddAlbum").submit(function(event) {
@@ -376,8 +381,7 @@
                     data: {
                         albumName: $("#albumName").val(),
                         albumArtist: $("#albumArtist").val(),
-                        albumRelease: $("#albumRelease").val(),
-                        trackNum: $("#trackNum").val(),
+                        albumRelease: $("#albumRelease").val(),                        
                         albumGenre: $("#albumGenre").val(),                        
                     },                    
                     success: function(msg) {
