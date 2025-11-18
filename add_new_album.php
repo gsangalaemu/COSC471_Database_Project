@@ -88,35 +88,34 @@ if (!empty($aa_id)) {
             }      
         }     
     }
-        
-    // Add the genre for the song
-    if (!empty($aa_id) && !empty($songGenre)) {
+
+    // Add the genre for the album
+    if (!empty($aa_id) && !empty($albumGenre)) {
         // Make sure the genre exists
         $sql = "SELECT Genre_id
                 FROM GENRES
                 WHERE Genre_name COLLATE utf8_unicode_ci = ?";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $songGenre);
+        $stmt->bind_param("s", $albumGenre);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $songGenre_id = $row["Genre_id"];
+                $albumGenre_id = $row["Genre_id"];
             } 
 
-            $sql = "UPDATE SONGS
-                SET GENRE = ?
-                WHERE Song_id = ?";
+            $sql = "INSERT INTO ALBUM_GENRES(Album_id, Genre_id)
+                    VALUES(?, ?)";
 
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $songGenre_id, $song_id);
+            $stmt->bind_param("ii", $album_id, $albumGenre_id);
             $stmt->execute();    
             
-            echo "Set song genre as " . $songGenre . "\n\n";
+            echo "Set album genre as " . $albumGenre . "\n\n";
         } else {
-        echo "Provided genre \"" . $songGenre . "\" not found, please select a valid genre!\n\n";
+        echo "Provided genre \"" . $albumGenre . "\" not found, please select a valid genre!\n\n";
         }        
     }   
     
