@@ -39,8 +39,7 @@ if (!empty($aa_id)) {
     $stmt->bind_param("si", $songName, $aa_id);
     $stmt->execute();
 
-
-    echo $songName . " successfully added to the database!\n\n";
+    echo $songName . " by " . $songAlbumArtist . " successfully added to the database!\n\n";
 
     // Track the auto-incremented pk of the new song
     // We'll use this for the other INSERT opererations
@@ -205,14 +204,8 @@ if (!empty($aa_id)) {
         } else {
                 echo "Provided guest artist \"" . $performingArtist . "\" not found, please add to Artist table first!";
         }
-
     }
-
-
-
 }
-
-
 
 // Close the connection to the datebase
 $conn->close();
