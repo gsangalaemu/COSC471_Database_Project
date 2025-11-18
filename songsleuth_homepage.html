@@ -7,7 +7,7 @@
                 justify-self: center;
                 text-align: center;
 
-                max-width: 1000px;
+                max-width: 1500px;
                 min-width: 900px;
 
                 max-height: 1000px;
@@ -37,27 +37,17 @@
                 padding: 20px;
                 display: none;
             }
-            .tableDiv{
+            .resultsDiv{
                 align-content: center;
                 background-color: palegoldenrod;
                 margin: 10px 10% 10px;
                 border-radius: 15px;
 
-                max-width: 800px;
+                max-width: 1200px;
 
 
                 padding: 20px;
                 display: none;
-            }
-                   .resultsDiv{
-                align-content: center;
-                background-color: palegoldenrod;
-                margin: 10px 10% 10px;
-                border-radius: 15px;
-
-                max-width: 1000px;
-
-                padding: 20px;                
             }
             button {
                 background-color: plum;
@@ -167,7 +157,7 @@
                         padding: 15px">
                 <button onclick="openForm('divAddArtist')"><h2>Add New Artist</h3></button>
                 <button onclick="openForm('divAddSong')"><h2>Add New Song</h3></button>
-                <button onclick="openForm('divAddAlbum')"><h2>Add New Album</h3></button>\
+                <button onclick="openForm('divAddAlbum')"><h2>Add New Album</h3></button>
 
                 <!-- Query Buttons -->
                 <center> 
@@ -191,6 +181,7 @@
                 <!-- The following divs are the add forms -->
                 
                 <!-- Add New Artist Form -->
+                 <center>
                 <div id="divAddArtist" class="formDiv">
                     <h2>Add New Artist</h2><br>
                     <form id="formAddArtist" method="POST">
@@ -212,7 +203,7 @@
 
                         <button type="submit">Submit</button>
                     </form>
-                </div>
+                </div>                
 
                 <!-- Add New Song Form -->
                 <div id="divAddSong" class="formDiv">
@@ -240,7 +231,7 @@
                         <input type="text" id="songGenre" name="songGenre" placeholder="Specify one genre the song falls under">
 
                         <label for="songYear">Year:</label>
-                        <input type="text" id="songYear" name="songYear" placeholder="Year the song was released, like 1996">
+                        <input type="text" id="songYear" name="songYear" placeholder="Year the song was released (YYYY)">
 
                         <label for="songLength">Song Length:</label>
                         <input type="text" id="songLength" name="songLength" placeholder="Inpt as HH:MM:SS (MUST include lead zeros)">
@@ -260,7 +251,7 @@
                         <input type="text" id="albumArtist" name="albumArtist" placeholder="The primary artist of the album" required="true">
 
                         <label for="albumRelease">Release Date:</label>
-                        <input type="text" id="albumRelease" name="albumRelease" placeholder="The date the album was released">
+                        <input type="text" id="albumRelease" name="albumRelease" placeholder="The date the album was released (YYYY-MM-DD)">
 
                         
                         <label for="albumGenre">Genre(s):</label>
@@ -269,9 +260,11 @@
                         <input type="submit" value="Submit">
                     </form>
                 </div>
-                
+                </center>
+
                 <!-- The following divs are the query forms -->
 
+                <center>
                 <!--Song Artist Query Form-->
                 <!-- This queries both performing artist and album artist -->
                 <div id="divSongByArtist" class="formDiv">
@@ -316,9 +309,10 @@
                         <button type="submit">Search</button>
                     </form>
                 </div>
+                </center>
 
                 <!-- Query results table -->
-                <div id="queryResults" class="tableDiv">                    
+                <div id="queryResults" class="resultsDiv">                    
                 </div>
             </div>
         </div>
