@@ -26,7 +26,8 @@ $sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name, S.Song_
               OR PA.Featured_artist IN (SELECT Artist_id
                                         FROM ARTISTS
                                         WHERE Artist_name COLLATE utf8_unicode_ci = ?)
-        GROUP BY S.Song_id";
+        GROUP BY S.Song_id
+        ORDER BY S.Release_year";
 
 
 // Prepare and bind the the variable

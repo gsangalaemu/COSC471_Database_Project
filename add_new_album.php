@@ -91,32 +91,40 @@ if (!empty($aa_id)) {
 
     // Add the genre for the album
     if (!empty($aa_id) && !empty($albumGenre)) {
-        // Make sure the genre exists
-        $sql = "SELECT Genre_id
-                FROM GENRES
-                WHERE Genre_name COLLATE utf8_unicode_ci = ?";
+        // Seperate multilple genres into an array
+        $genreArray = explode(",", $albumGenre);
 
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $albumGenre);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        foreach ($genreArray as $genre) {
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $albumGenre_id = $row["Genre_id"];
-            } 
+            $genre = trim($genre); // Trim leading annd trailing white space
 
-            $sql = "INSERT INTO ALBUM_GENRES(Album_id, Genre_id)
-                    VALUES(?, ?)";
+            // Make sure the genre exists
+            $sql = "SELECT Genre_id
+                    FROM GENRES
+                    WHERE Genre_name COLLATE utf8_unicode_ci = ?";
 
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $album_id, $albumGenre_id);
-            $stmt->execute();    
-            
-            echo "Set album genre as " . $albumGenre . "\n\n";
-        } else {
-        echo "Provided genre \"" . $albumGenre . "\" not found, please select a valid genre!\n\n";
-        }        
+            $stmt->bind_param("s", $genre);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $albumGenre_id = $row["Genre_id"];
+                } 
+
+                $sql = "INSERT INTO ALBUM_GENRES(Album_id, Genre_id)
+                        VALUES(?, ?)";
+
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $album_id, $albumGenre_id);
+                $stmt->execute();    
+                
+                echo "Added " . $genre . " as a genre\n\n";
+            } else {
+            echo "Provided genre \"" . $genre . "\" not found, please select a valid genre!\n\n";
+            }
+    }        
     }   
     
 }

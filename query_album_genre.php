@@ -13,7 +13,7 @@ $genre = $_POST['queryAlbumGenre'];
 // not just the genre the user searched, in a single cell.
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT A.Artist_name, B.Album_name, B.Release_date, 
-               GROUP_CONCAT(G.Genre_name) AS Genre
+               GROUP_CONCAT(G.Genre_name SEPARATOR ', ') AS Genre
         FROM ARTISTS AS A
         JOIN ALBUMS AS B ON B.Album_artist = A.Artist_id
         JOIN ALBUM_GENRES AS AG ON AG.Album_id = B.Album_id
@@ -24,7 +24,8 @@ $sql = "SELECT A.Artist_name, B.Album_name, B.Release_date,
                              JOIN ALBUM_GENRES AS AGI ON AGI.Album_id = BI.Album_id
                              JOIN GENRES AS GI ON GI.Genre_id = AGI.Genre_id        
         WHERE Genre_name COLLATE utf8_unicode_ci = ?)
-        GROUP BY B.Album_id";
+        GROUP BY B.Album_id
+        ORDER BY Release_date";
 
 // Prepare and bind the the variable
 $stmt = $conn->prepare($sql);

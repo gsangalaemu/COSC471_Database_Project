@@ -11,13 +11,14 @@ $artist = $_POST['queryAlbumArtist'];
 // GROUP_CONCAT is used so that albums with multiple genres will display all genres
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT Artist_name, Album_name, Release_date, 
-               GROUP_CONCAT(Genre_name) AS Genre
+               GROUP_CONCAT(Genre_name SEPARATOR ', ') AS Genre
         FROM ARTISTS AS A
         JOIN ALBUMS AS B ON A.Artist_id = B.Album_artist
         LEFT JOIN ALBUM_GENRES AS AG ON B.Album_id = AG.Album_id
         LEFT JOIN GENRES AS G ON AG.Genre_id = G.Genre_id
         WHERE Artist_name COLLATE utf8_unicode_ci = ?
-        GROUP BY B.Album_id";
+        GROUP BY B.Album_id
+        ORDER BY Release_date";
 
 // Prepare and bind the the variable
 $stmt = $conn->prepare($sql);

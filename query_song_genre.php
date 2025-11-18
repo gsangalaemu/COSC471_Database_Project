@@ -11,8 +11,8 @@ $genre = $_POST['querySongGenre'];
 // featured/guest/performing artists all appear in one cell.
 // The COLLATE is needed to ignore case sensitivity issues
 $sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name, S.Song_id, S.Song_length,
-               GROUP_CONCAT(B.Album_name) AS Album_name,
-               GROUP_CONCAT(FA.Artist_name) AS Performing_artist
+               GROUP_CONCAT(B.Album_name SEPARATOR ', ') AS Album_name,
+               GROUP_CONCAT(FA.Artist_name SEPARATOR ', ') AS Performing_artist
         FROM ARTISTS AS A
         JOIN SONGS AS S ON S.Album_artist = A.Artist_id
         LEFT JOIN PERFORMING_ARTIST AS PA ON PA.Song_id = S.Song_id
@@ -21,7 +21,8 @@ $sql = "SELECT A.Artist_name, S.Song_name, S.Release_year, G.Genre_name, S.Song_
         JOIN SONG_ALBUMS AS SA ON SA.Song_id = S.Song_id
         JOIN ALBUMS AS B ON B.Album_id = SA.Album_id
         WHERE G.Genre_name COLLATE utf8_unicode_ci = ?
-        GROUP BY S.Song_id";
+        GROUP BY S.Song_id
+        ORDER BY S.Release_year";
 
 // Prepare and bind the the variable
 $stmt = $conn->prepare($sql);
@@ -33,24 +34,24 @@ if ($result->num_rows> 0) {
     // Print a table of results
     echo "<h1>" . "Songs matching " . $genre . "</h1>";
     echo "<table>
-        <tr>
-            <th>Genre</th>
-            <th>Album  Artist</th>
+        <tr>            
+            <th>Album Artist</th>
             <th>Featured Artist(s)</th>
             <th>Song</th>
-            <th>Length</th>
+            <th>Length</th>            
+            <th>Year</th>
             <th>Appears On</th>
-            <th>Year</th>            
+            <th>Genre</th>
         </tr>";
     while ($row = $result->fetch_assoc()) {
-        echo "<tr>" .
-        "<td>" . $row["Genre_name"] . "</td>" .
+        echo "<tr>" .        
         "<td>" . $row["Artist_name"] . "</td>" .
         "<td>" . $row["Performing_artist"] . "</td>" .
         "<td>" . $row["Song_name"] . "</td>" .
         "<td>" . $row["Song_length"] . "</td>" . 
         "<td>" . $row["Release_year"] . "</td>" .
         "<td>" . $row["Album_name"] . "</td>" .
+        "<td>" . $row["Genre_name"] . "</td>" .
         "</tr>";
     }
     echo "</table>";
