@@ -55,7 +55,7 @@
                 margin: 10px 10% 10px;
                 border-radius: 15px;
 
-                max-width: 800px;
+                max-width: 1000px;
 
                 padding: 20px;                
             }
@@ -151,40 +151,45 @@
         </script>
     </head>
     <body style="background-color: lightblue;">
-        
+        <!-- Center the entier page -->
+        <center>
+
         <div class="backgroundDiv">
             
+            <!-- Homepage Button -->
             <div>
                 <button onclick="window.location.href='songsleuth_homepage.html'"><h1><i>SongSleuth</i></h1></button>
             </div>
-            <div style="/*background-color: green;*/
-                        margin-top: 10px;
+
+            <!-- Add New Buttons -->
+            <div style="margin-top: 10px;
                         margin-bottom: 10px;
                         padding: 15px">
                 <button onclick="openForm('divAddArtist')"><h2>Add New Artist</h3></button>
                 <button onclick="openForm('divAddSong')"><h2>Add New Song</h3></button>
-                <button onclick="openForm('divAddAlbum')"><h2>Add New Album</h3></button>
-                <div style="/*background-color: yellow;*/
-                        width:fit-content;
+                <button onclick="openForm('divAddAlbum')"><h2>Add New Album</h3></button>\
+
+                <!-- Query Buttons -->
+                <center> 
+                <div style="width:fit-content;
                         height: fit-content;
                         padding-top: 10px;
                         padding-bottom: 10px;
                         justify-self: center;">
                     <grid style="display: grid;
                                 align-items: center;
-                                grid-template-columns:  auto auto;">
+                                grid-template-columns: auto auto;">
                 
                         <center><button onclick="openForm('divSongByArtist')"><h3>Query Songs By Artist</h3></button></center>
                         <center><button onclick="openForm('divAlbumByArtist')"><h3>Query Albums By Artists</h4></button></center>
                         <center><button onclick="openForm('divSongByGenre')"><h3>Query Songs By Genre</h4></button></center>
                         <center><button onclick="openForm('divAlbumByGenre')"><h3>Query Albums By Genre</h4></button></center>
-                    </grid>
-
-                    
+                    </grid>                    
                 </div>
+                </center>
 
                 <!-- The following divs are the add forms -->
-
+                
                 <!-- Add New Artist Form -->
                 <div id="divAddArtist" class="formDiv">
                     <h2>Add New Artist</h2><br>
@@ -252,7 +257,7 @@
                         <input type="text" id="albumName" name="albumName" placeholder="Album or single name" required="true">
 
                         <label for="albumArtist">Album Artist:</label>
-                        <input type="text" id="albumArtist" name="albumArtist" placeholder="The primary artist of the album">
+                        <input type="text" id="albumArtist" name="albumArtist" placeholder="The primary artist of the album" required="true">
 
                         <label for="albumRelease">Release Date:</label>
                         <input type="text" id="albumRelease" name="albumRelease" placeholder="The date the album was released">
@@ -264,7 +269,7 @@
                         <input type="submit" value="Submit">
                     </form>
                 </div>
-
+                
                 <!-- The following divs are the query forms -->
 
                 <!--Song Artist Query Form-->
@@ -317,7 +322,9 @@
                 </div>
             </div>
         </div>
-
+    
+    </center>
+    
         <!-- Neded for the ajax/jquery scripts to function -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
