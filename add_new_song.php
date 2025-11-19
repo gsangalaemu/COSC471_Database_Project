@@ -210,7 +210,7 @@ if (!empty($aa_id)) {
                     echo "Added " . $performer . " as a performering artist\n\n";
                 } 
             } else {
-                    echo "Provided performering artist \"" . $performer . "\" not found, please add to Artist table first!";
+                    echo "Provided performering artist \"" . $performer . "\" not found, please add to Artist table first!\n\n";
             }
         }
     }
