@@ -1,6 +1,6 @@
 # SongSleuth Setup
 
-SongSleuth can be setup locally as well
+SongSleuth can be setup locally as well. To do so a few things will need to be installed and configured.
 
 ## Requirements
 
@@ -57,11 +57,16 @@ On GitHub:
   - On Windows after starting XAMPP you will need to manually start the Apache server and MySQL modules by click "Start"
     - If you have another MySQL Server installed on Windows that is using port 3306 you will need to either disable it or change the port used by either XAMPP or the other MySQL server.
   - On Linux starting XAMPP should start these servcies automatically. You can start XAMPP on Linux by running `sudo /opt/lampp/lampp start`
+
+    <img width="838" height="542" alt="XAMPP Windows Modules Running" src="https://github.com/user-attachments/assets/d32c50db-6abf-4f95-b252-200058d118c6" />
+
 2. Open a web browser and navigate to `https://localhost/phpmyadmin/index.php?`
 3. Click On "Databases" and under "Create Database"
     - Input `song_sleuth` as the database name
     - Choose utf8_bin as the Collation
 4. Click "Create"
+
+<img width="1227" height="372" alt="phpMyAdmin Create Database Settings" src="https://github.com/user-attachments/assets/3bc7a04b-3a2c-4c86-b564-56a01c6289ab" />   
 
 ### 3). Import SongSleuth Database Into phpMyAdmin
 
@@ -84,3 +89,7 @@ This step will only need to be done if setting up the database on a case sensiti
 4. Save and close the config file
 
 This is necessary so that the SQL queries that the PHP scripts user will work correctly on case-sensitive operating systems. Without doing this the queries will fail.
+
+### 5). Use SongSleuth
+
+SongSleuth should be ready to use now. (You may need to restart XAMPP). You can now access SongSleuth by going to `http://localhost/song_sleuth/songsleuth_homepage.html`
