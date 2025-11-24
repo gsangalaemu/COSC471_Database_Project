@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 14, 2025 at 05:58 AM
+-- Generation Time: Nov 24, 2025 at 04:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,13 @@ CREATE TABLE `affiliations` (
   `Info` mediumtext DEFAULT NULL COMMENT 'Stores information about the relationship between the artist and the group\n'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Dumping data for table `affiliations`
+--
+
+INSERT INTO `affiliations` (`Group_id`, `Artist_id`, `Info`) VALUES
+(132, 143, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -43,33 +50,53 @@ CREATE TABLE `albums` (
   `Album_id` int(11) NOT NULL COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because it is not uncommon for different artists to have albums using the same name, and even sometimes a single artist will have multiple albums with the same name.\n',
   `Album_artist` int(11) DEFAULT NULL,
   `Album_name` varchar(255) DEFAULT NULL COMMENT 'The name of the album.',
-  `Release_date` date DEFAULT NULL COMMENT 'The original release date of an album',
-  `Album_art` varchar(260) DEFAULT NULL COMMENT 'Following best practices, instead of storing the images directly in the database, we instead will store the images in the file system and store the path to each image in the database. VARCHAR(260) is chosen because 260 characters is the max path length on Windows systems.\n'
+  `Release_date` varchar(10) DEFAULT NULL COMMENT 'The original release date of an album'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `albums`
 --
 
-INSERT INTO `albums` (`Album_id`, `Album_artist`, `Album_name`, `Release_date`, `Album_art`) VALUES
-(1, 1, 'Of Fracture And Failure', '2007-02-01', NULL),
-(2, 1, 'Everything Is Fire', '2009-04-07', NULL),
-(3, 1, 'The Destroyers of All', '2011-01-25', NULL),
-(4, 1, 'Vermis', '2013-09-17', NULL),
-(5, 1, 'Shrines of Paralysis', '2016-10-28', NULL),
-(6, 1, 'Stare Into Death And Be Still', '2020-04-24', NULL),
-(7, 1, 'Cutting The Throat of God', '2024-06-14', NULL),
-(44, 14, 'Blue Train', '1958-02-01', NULL),
-(45, 14, 'Giant Steps', '1960-01-27', NULL),
-(46, 14, 'My Favorite Things', '1961-03-01', NULL),
-(47, 14, 'Africa Brass', '1961-09-01', NULL),
-(48, 14, 'Ole', '1961-11-01', NULL),
-(49, 14, 'Crescent', '1964-07-01', NULL),
-(50, 14, 'A Love Supreme', '1965-01-01', NULL),
-(51, 14, 'Ascension', '1966-02-02', NULL),
-(52, 14, 'Meditations', '1966-08-01', NULL),
-(53, 14, 'Interstellar Space', '1974-09-01', NULL),
-(54, 14, 'Both Directions At Once: The Lost Album', '2018-06-29', NULL);
+INSERT INTO `albums` (`Album_id`, `Album_artist`, `Album_name`, `Release_date`) VALUES
+(1, 1, 'Of Fracture And Failure', '2007-02-01'),
+(2, 1, 'Everything Is Fire', '2009-04-07'),
+(3, 1, 'The Destroyers of All', '2011-01-25'),
+(4, 1, 'Vermis', '2013-09-17'),
+(5, 1, 'Shrines of Paralysis', '2016-10-28'),
+(6, 1, 'Stare Into Death And Be Still', '2020-04-24'),
+(7, 1, 'Cutting The Throat of God', '2024-06-14'),
+(44, 14, 'Blue Train', '1958-02-01'),
+(45, 14, 'Giant Steps', '1960-01-27'),
+(46, 14, 'My Favorite Things', '1961-03-01'),
+(47, 14, 'Africa Brass', '1961-09-01'),
+(48, 14, 'Ole', '1961-11-01'),
+(49, 14, 'Crescent', '1964-07-01'),
+(50, 14, 'A Love Supreme', '1965-01-01'),
+(51, 14, 'Ascension', '1966-02-02'),
+(52, 14, 'Meditations', '1966-08-01'),
+(53, 14, 'Interstellar Space', '1974-09-01'),
+(54, 14, 'Both Directions At Once: The Lost Album', '2018-06-29'),
+(55, 17, 'Aethiopes', '2022-04-08'),
+(58, 8, 'Dirt', '1992-09-29'),
+(59, 8, 'Jar of Flies', '1994-01-25'),
+(61, 49, '2001', '1999-11-16'),
+(63, 49, 'The Chronic', NULL),
+(64, 49, 'Compton', NULL),
+(82, 157, 'Jazz In Silhouette', '1959-05'),
+(83, 157, 'Lanquidity', '1978'),
+(84, 158, 'Heaven And Hell', '1980-04-25'),
+(85, 158, 'Black Sabbath', '1970-02-13'),
+(86, 158, 'Paranoid', '1970-09-18'),
+(87, 158, 'Master of Reality', '1971-07-21'),
+(88, 158, 'Black Sabbath Vol. 4', '1972-09-25'),
+(89, 158, 'Sabbath Bloody Sabbath', '1973-12-28'),
+(90, 158, 'Sabotage', '1975-07-28'),
+(91, 158, 'Never Say Die!', '1978-09-28'),
+(92, 158, 'Technical Ecstasy', '1976-10-01'),
+(93, 74, 'Goldstar', '2025-03-21'),
+(94, 78, 'The Blueprint', '2001-09-11'),
+(95, 56, 'The Marshall Mathers LP', '2000-05-23'),
+(96, 56, 'The Eminem Show', '2002-05-28');
 
 -- --------------------------------------------------------
 
@@ -124,7 +151,26 @@ INSERT INTO `album_genres` (`Album_id`, `Genre_id`) VALUES
 (53, 72),
 (54, 87),
 (54, 120),
-(54, 141);
+(54, 141),
+(55, 1),
+(55, 65),
+(58, 86),
+(61, 77),
+(61, 91),
+(61, 198),
+(88, 93),
+(89, 93),
+(90, 88),
+(90, 93),
+(91, 88),
+(91, 93),
+(92, 88),
+(92, 93),
+(93, 17),
+(93, 47),
+(94, 57),
+(95, 91),
+(96, 91);
 
 -- --------------------------------------------------------
 
@@ -274,7 +320,33 @@ INSERT INTO `artists` (`Artist_id`, `Artist_name`) VALUES
 (130, 'Trapped Under Ice'),
 (131, 'Vermin Womb'),
 (132, 'Wu-Tang Clan'),
-(133, 'Ashenspire');
+(133, 'Ashenspire'),
+(134, 'Boldy James'),
+(135, 'Revocation'),
+(136, 'Sanguisugabogg'),
+(139, 'Fulci'),
+(140, 'Frozen Soul'),
+(141, 'Undeath'),
+(143, 'GZA'),
+(144, 'Tomb Mold'),
+(145, 'Necrot'),
+(146, 'Combust'),
+(147, 'Scarab'),
+(148, 'Swans'),
+(149, 'Hittman'),
+(150, 'Devin The Dude'),
+(151, 'Xzibit'),
+(152, 'Nate Dogg'),
+(153, 'Ms. Roq'),
+(154, 'Mary J. Blige'),
+(155, 'Kurupt'),
+(156, 'Drain'),
+(157, 'Sun Ra'),
+(158, 'Black Sabbath'),
+(159, 'Boldy James & The Alchemist'),
+(160, 'Freddie Gibbs & The Alchemist'),
+(161, 'Armand Hammer & The Alchemist'),
+(169, 'Test Artist');
 
 -- --------------------------------------------------------
 
@@ -498,10 +570,24 @@ INSERT INTO `genres` (`Genre_id`, `Genre_name`) VALUES
 --
 
 CREATE TABLE `performing_artist` (
-  `Performing_artist_id` int(11) NOT NULL COMMENT 'Auto generated integer to server as the primary key',
-  `Song_id` int(11) DEFAULT NULL COMMENT 'The song in question References SONGS.Song_id',
-  `Featured_artist` int(11) DEFAULT NULL COMMENT 'The guest/featured artist Refences ARTIST.Artist_id'
+  `Song_id` int(11) NOT NULL COMMENT 'The song in question References SONGS.Song_id',
+  `Featured_artist` int(11) NOT NULL COMMENT 'The guest/featured artist Refences ARTIST.Artist_id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `performing_artist`
+--
+
+INSERT INTO `performing_artist` (`Song_id`, `Featured_artist`) VALUES
+(105, 134),
+(137, 122),
+(138, 149),
+(142, 149),
+(142, 152),
+(142, 155),
+(143, 56),
+(149, 152),
+(150, 56);
 
 -- --------------------------------------------------------
 
@@ -515,14 +601,14 @@ CREATE TABLE `songs` (
   `Album_artist` int(11) DEFAULT NULL COMMENT 'The primary artist for a song or album. References ARTIST.Artist_id',
   `Song_length` time DEFAULT NULL COMMENT 'The length of the song.',
   `Genre` int(11) DEFAULT NULL COMMENT 'The genre of a song. For our design we are keeping things simple by only using the primary genre for a song. If a song crosses genre boundaries additional genres will not be included. This is due to the somewhat subjective nature of genres. References GENRES.Genre_id',
-  `Year` int(11) DEFAULT NULL COMMENT 'The year a song was originally released'
+  `Release_year` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `songs`
 --
 
-INSERT INTO `songs` (`Song_id`, `Song_name`, `Album_artist`, `Song_length`, `Genre`, `Year`) VALUES
+INSERT INTO `songs` (`Song_id`, `Song_name`, `Album_artist`, `Song_length`, `Genre`, `Release_year`) VALUES
 (1, 'Praise And Negation', 1, '00:04:15', 187, 2007),
 (2, 'Ad Nauseam', 1, '00:03:40', 187, 2007),
 (3, 'The Mask of The Satyr', 1, '00:06:34', 187, 2007),
@@ -626,7 +712,45 @@ INSERT INTO `songs` (`Song_id`, `Song_name`, `Album_artist`, `Song_length`, `Gen
 (101, 'Vilia', 14, '00:05:33', 120, 2018),
 (102, 'Impressions', 14, '00:04:36', 120, 2018),
 (103, 'Slow Blues', 14, '00:11:29', 120, 2018),
-(104, 'One Up, One Down', 14, '00:08:02', 120, 2018);
+(104, 'One Up, One Down', 14, '00:08:02', 120, 2018),
+(105, 'Sauvage', 17, '00:03:07', 1, 2022),
+(107, 'Journey in Satchidananda', 7, NULL, NULL, NULL),
+(108, 'Shiva-Loka', 7, NULL, NULL, NULL),
+(109, 'Stopover Bombay', 7, NULL, NULL, NULL),
+(110, 'Something About John Coltrane', 7, NULL, NULL, NULL),
+(111, 'Isis And Osiris', 7, NULL, NULL, NULL),
+(112, 'Them Bones', 8, NULL, NULL, NULL),
+(113, 'Dam That River', 8, NULL, NULL, NULL),
+(114, 'Rain When I Die', 8, NULL, NULL, NULL),
+(115, 'Down In A Hole', 8, NULL, NULL, NULL),
+(116, 'Sickman', 8, NULL, NULL, NULL),
+(117, 'Rooster', 8, NULL, NULL, NULL),
+(118, 'Junkhead', 8, NULL, NULL, NULL),
+(119, 'Dirt', 8, NULL, NULL, 1992),
+(120, 'God Smack', 8, NULL, NULL, NULL),
+(122, 'Iron Gland', 8, '00:00:46', NULL, 1992),
+(123, 'Hate To Feel', 8, NULL, NULL, 1992),
+(124, 'Angry Chair', 8, NULL, NULL, 1992),
+(125, 'Would?', 8, NULL, NULL, 1992),
+(126, 'Rotten Apple', 8, '00:06:58', NULL, 1994),
+(127, 'Nutshell', 8, '00:04:19', NULL, 1994),
+(128, 'I Stay Away', 8, '00:04:14', NULL, 1994),
+(129, 'No Excuses', 8, '00:04:15', 86, 1994),
+(131, 'Whale & Wasp', 8, '00:02:37', NULL, NULL),
+(132, 'Don\'t Follow', 8, NULL, NULL, NULL),
+(134, 'The Watcher', 49, '00:03:27', 77, 1999),
+(137, 'Still D.R.E.', 49, '00:04:31', 77, 1999),
+(138, 'Big Ego\'s', 49, '00:03:58', 77, 1999),
+(139, 'Let Me Ride', 49, NULL, NULL, NULL),
+(140, 'High Powered', 49, NULL, NULL, NULL),
+(142, 'Xxplosive', 49, '00:03:35', 77, 1991),
+(143, 'Forgot About Dre', 49, '00:03:42', 77, 1999),
+(144, 'Pleasuredome', 74, '00:05:36', NULL, 2025),
+(145, 'Pleasuredome', 74, '00:05:36', NULL, 2025),
+(147, 'Stan', 56, '00:06:44', 91, 2000),
+(148, 'The Real Slim Shady', 56, '00:04:44', 91, 2000),
+(149, '\'Till I Collapse', 56, '00:04:57', 91, 2002),
+(150, 'Renagade', 78, '00:05:12', NULL, 2001);
 
 -- --------------------------------------------------------
 
@@ -747,7 +871,26 @@ INSERT INTO `song_albums` (`Song_id`, `Album_id`, `Track_number`) VALUES
 (101, 54, 4),
 (102, 54, 5),
 (103, 54, 6),
-(104, 54, 7);
+(104, 54, 7),
+(105, 55, 4),
+(123, 58, NULL),
+(124, 58, NULL),
+(125, 58, NULL),
+(126, 59, NULL),
+(129, 59, NULL),
+(134, 61, NULL),
+(137, 61, NULL),
+(138, 61, NULL),
+(139, 63, NULL),
+(140, 63, NULL),
+(142, 61, NULL),
+(143, 61, NULL),
+(144, 93, NULL),
+(145, 93, NULL),
+(147, 95, 3),
+(148, 95, 8),
+(149, 96, 18),
+(150, 94, 12);
 
 -- --------------------------------------------------------
 
@@ -763,6 +906,18 @@ CREATE TABLE `years_active` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
+-- Dumping data for table `years_active`
+--
+
+INSERT INTO `years_active` (`Years_active_id`, `Artist_id`, `Start_date`, `End_date`) VALUES
+(1, 139, '2013', 'Present'),
+(2, 136, '2019', 'Present'),
+(3, 140, '2018', NULL),
+(4, 141, NULL, 'Present'),
+(5, 144, '2015', 'Present'),
+(6, 157, '1934', '1993');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -771,7 +926,8 @@ CREATE TABLE `years_active` (
 --
 ALTER TABLE `affiliations`
   ADD PRIMARY KEY (`Group_id`,`Artist_id`),
-  ADD KEY `Artist_id_idx` (`Artist_id`);
+  ADD KEY `Artist_id_idx` (`Artist_id`),
+  ADD KEY `Group_id` (`Group_id`);
 
 --
 -- Indexes for table `albums`
@@ -803,7 +959,7 @@ ALTER TABLE `genres`
 -- Indexes for table `performing_artist`
 --
 ALTER TABLE `performing_artist`
-  ADD PRIMARY KEY (`Performing_artist_id`),
+  ADD PRIMARY KEY (`Song_id`,`Featured_artist`),
   ADD KEY `Song_id_idx` (`Song_id`),
   ADD KEY `Featured_artist_idx` (`Featured_artist`);
 
@@ -837,13 +993,13 @@ ALTER TABLE `years_active`
 -- AUTO_INCREMENT for table `albums`
 --
 ALTER TABLE `albums`
-  MODIFY `Album_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because it is not uncommon for different artists to have albums using the same name, and even sometimes a single artist will have multiple albums with the same name.\n', AUTO_INCREMENT=55;
+  MODIFY `Album_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because it is not uncommon for different artists to have albums using the same name, and even sometimes a single artist will have multiple albums with the same name.\n', AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `artists`
 --
 ALTER TABLE `artists`
-  MODIFY `Artist_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because there are multiple artists with the same name, as well as to account for artist name changes.\n', AUTO_INCREMENT=134;
+  MODIFY `Artist_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because there are multiple artists with the same name, as well as to account for artist name changes.\n', AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `genres`
@@ -852,22 +1008,16 @@ ALTER TABLE `genres`
   MODIFY `Genre_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This was chosen because the same genre name sometimes refers to distinct genres. (Hardcore for instance can refer to a style of punk or a style of electronic music).\n', AUTO_INCREMENT=199;
 
 --
--- AUTO_INCREMENT for table `performing_artist`
---
-ALTER TABLE `performing_artist`
-  MODIFY `Performing_artist_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto generated integer to server as the primary key';
-
---
 -- AUTO_INCREMENT for table `songs`
 --
 ALTER TABLE `songs`
-  MODIFY `Song_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because it is very common for different artists to have songs using the same name, and not unheard of for a single artist to have multiple songs by the same name.\n', AUTO_INCREMENT=105;
+  MODIFY `Song_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity. This method was chosen because it is very common for different artists to have songs using the same name, and not unheard of for a single artist to have multiple songs by the same name.\n', AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `years_active`
 --
 ALTER TABLE `years_active`
-  MODIFY `Years_active_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity.\n';
+  MODIFY `Years_active_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-generated integer to serve as the primary key for this entity.\n', AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -878,7 +1028,7 @@ ALTER TABLE `years_active`
 --
 ALTER TABLE `affiliations`
   ADD CONSTRAINT `Affiliation_Artist_ID` FOREIGN KEY (`Artist_id`) REFERENCES `artists` (`Artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Affliation_Group_id_idx` FOREIGN KEY (`Artist_id`) REFERENCES `artists` (`Artist_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Affliation_Group_id_idx` FOREIGN KEY (`Group_id`) REFERENCES `artists` (`Artist_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `albums`
@@ -898,8 +1048,8 @@ ALTER TABLE `album_genres`
 -- Constraints for table `performing_artist`
 --
 ALTER TABLE `performing_artist`
-  ADD CONSTRAINT `Featured_Artist_Artist_ID` FOREIGN KEY (`Featured_artist`) REFERENCES `artists` (`Artist_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `Performing_Artist_Song_ID` FOREIGN KEY (`Song_id`) REFERENCES `songs` (`Song_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `Featured_Artist_Artist_ID` FOREIGN KEY (`Featured_artist`) REFERENCES `artists` (`Artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Performing_Artist_Song_ID` FOREIGN KEY (`Song_id`) REFERENCES `songs` (`Song_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `songs`
