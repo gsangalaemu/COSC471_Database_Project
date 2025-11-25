@@ -16,7 +16,8 @@ $songLength = $_POST['songLength'];
 $sql = "SELECT Artist_id
         FROM ARTISTS
         WHERE Artist_name COLLATE utf8_unicode_ci = ?";
-        
+
+// Create statement variable for results to protect against SQL Injection
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $songAlbumArtist);
 $stmt->execute();
@@ -66,10 +67,12 @@ if (!empty($aa_id)) {
                     SET Release_year = ?
                     WHERE Song_id = ?";            
 
+            // Create statement variable for results to protect against SQL Injection
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ii", $songYear, $song_id);
             $stmt->execute();
 
+            // Message for updating song release year
             echo "Set song release year to " . $songYear . "\n\n";
         }        
     }
@@ -85,10 +88,12 @@ if (!empty($aa_id)) {
                     SET Song_length = ?
                     WHERE Song_id = ?";
 
+            // Create statement variable for results to protect against SQL Injection
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $songLength, $song_id);
             $stmt->execute();
 
+            // Message if we update song length 
             echo "Set song length to " . $songLength . "\n\n";
         }
     }
@@ -103,6 +108,7 @@ if (!empty($aa_id)) {
                 FROM ALBUMS
                 WHERE Album_name COLLATE utf8_unicode_ci = ?";
 
+        // Create statement variable for results to protect against SQL Injection
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $songAlbum);
         $stmt->execute();
@@ -116,10 +122,12 @@ if (!empty($aa_id)) {
             $sql = "INSERT INTO SONG_ALBUMS(Song_id, Album_id)
                     VALUES(?, ?)";
 
+            // Create statement variable for results to protect against SQL Injection
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ii", $song_id, $artistAlbum_id);
             $stmt->execute();         
 
+            //Message for if query to add song to album succeeded or not
             echo "Marked song as appearing on " . $songAlbum . "\n\n";
 
         } else {
@@ -152,6 +160,7 @@ if (!empty($aa_id)) {
                 FROM GENRES
                 WHERE Genre_name COLLATE utf8_unicode_ci = ?";
 
+        // Create statement variable for results to protect against SQL Injection
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $songGenre);
         $stmt->execute();
@@ -166,6 +175,7 @@ if (!empty($aa_id)) {
                 SET GENRE = ?
                 WHERE Song_id = ?";
 
+            // Create statement variable for results to protect against SQL Injection
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ii", $songGenre_id, $song_id);
             $stmt->execute();    
@@ -190,7 +200,8 @@ if (!empty($aa_id)) {
             $sql = "SELECT Artist_id
             FROM ARTISTS
             WHERE Artist_name COLLATE utf8_unicode_ci = ?";
-            
+
+            // Create statement variable for results to protect against SQL Injection
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $performer);
             $stmt->execute();
@@ -203,10 +214,12 @@ if (!empty($aa_id)) {
                     $sql = "INSERT INTO PERFORMING_ARTIST(Song_id, Featured_artist)
                             VALUES(?, ?)";
 
+                    // Create statement variable for results to protect against SQL Injection
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("ii", $song_id, $guestArtist_id);
                     $stmt->execute(); 
 
+                    // Message for if query to add perfomer for song worked or not
                     echo "Added " . $performer . " as a performering artist\n\n";
                 } 
             } else {
