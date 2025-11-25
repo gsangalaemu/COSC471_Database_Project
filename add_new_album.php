@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
         $aa_id = $row["Artist_id"];
     } 
 } else {
-        echo "Provided artist \"" . $albumArtist . "\" not found, please add to Artist table first!";
+        echo "Provided artist \"" . $albumArtist . "\" not found, please add to Artist table first!\n\n";
 }
 
 // Insert the new album into the ALBUMS table if the artist exists
@@ -65,7 +65,7 @@ if (!empty($aa_id)) {
                 $format = 'Y-m-d';
                 break;
             default:
-                echo "Invalid album release date format. Enter as YYYY or YYYY-MM or YYYY-MM-DD.";
+                echo "Invalid album release date format. Enter as YYYY or YYYY-MM or YYYY-MM-DD.\n\n";
                 $validReleaseDate = false; // Set false on failure
                 break;
         }
@@ -73,7 +73,7 @@ if (!empty($aa_id)) {
         if ($validReleaseDate) {
             $albumReleaseFormatted = DateTime::createFromFormat($format, $albumRelease);
             if ($albumReleaseFormatted === false) {
-                echo "Invalid album release date format. Enter as YYYY or YYYY-MM or YYYY-MM-DD.";
+                echo "Invalid album release date format. Enter as YYYY or YYYY-MM or YYYY-MM-DD.\n\n";
             } else {
                 // If the date format is valid then UPDATE the ALBUM table entry for the ablum
                 $sql = "UPDATE ALBUMS

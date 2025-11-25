@@ -36,6 +36,8 @@ if (!empty($yearStart) && empty($yearEnd)) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("is", $artist_id, $yearStart);
     $stmt->execute();
+
+    echo "Set Years Active (Start) to " . $yearStart . "\n\n";
 }
 
 // yearEnd provided, but not yearStart
@@ -45,6 +47,8 @@ if (!empty($yearEnd) && empty($yearStart)) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("is", $artist_id, $yearEnd);
     $stmt->execute();
+
+    echo "Set Years Active (End) to " . $yearEnd . "\n\n";
 }
 
 // yearStart and yearEnd provided
@@ -54,6 +58,9 @@ if (!empty($yearStart) && !empty($yearEnd)) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iss", $artist_id, $yearStart, $yearEnd);
     $stmt->execute();
+
+    echo "Set Years Active (Start) to " . $yearStart . "\n\n";
+    echo "Set Years Active (End) to " . $yearEnd . "\n\n";
 }
 
 // Check if a group affiliation was provided, insert if so

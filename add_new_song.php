@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
         $aa_id = $row["Artist_id"];
     } 
 } else {
-        echo "Provided artist \"" . $songAlbumArtist . "\" not found, please add to Artist table first!";
+        echo "Provided artist \"" . $songAlbumArtist . "\" not found, please add to Artist table first!\n\n";
 }
 
 // Insert the new song into the SONGS table if the artist exists
