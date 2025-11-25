@@ -69,7 +69,8 @@ if (!empty($group)) {
         $sql = "SELECT Artist_id
                 FROM ARTISTS
                 WHERE Artist_name = ?";
-        
+
+        // Create statement object for result to protect against SQL Injection
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $groupItem);
         $stmt->execute();
@@ -83,12 +84,14 @@ if (!empty($group)) {
                 $group_id = $row["Artist_id"];
             }
 
+            // Create statement object for result to protect against SQL Injection
             $sql = "INSERT INTO AFFILIATIONS(Artist_id, Group_id)
                 VALUES(?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ii", $artist_id, $group_id);
             $stmt->execute();
 
+            // Message to return result of query
             echo "Added affiliation " . $groupItem . "\n\n";
 
         } else {
