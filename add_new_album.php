@@ -104,6 +104,7 @@ if (!empty($aa_id)) {
                     FROM GENRES
                     WHERE Genre_name COLLATE utf8_unicode_ci = ?";
 
+            // Created statement object for result that helps protect against SQL Injection
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $genre);
             $stmt->execute();
@@ -114,13 +115,16 @@ if (!empty($aa_id)) {
                     $albumGenre_id = $row["Genre_id"];
                 } 
 
+                // Insert our new album 
                 $sql = "INSERT INTO ALBUM_GENRES(Album_id, Genre_id)
                         VALUES(?, ?)";
 
+                // Created statement object for result that helps protect against SQL Injection
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("ii", $album_id, $albumGenre_id);
                 $stmt->execute();    
-                
+
+                // Message to track SQL Query results
                 echo "Added " . $genre . " as a genre\n\n";
             } else {
             echo "Provided genre \"" . $genre . "\" not found, please select a valid genre!\n\n";
