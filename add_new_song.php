@@ -135,7 +135,7 @@ if (!empty($aa_id)) {
         }      
 
         // If a track number was also provided then UPDATE that as well
-        if(!empty($trackNum)) {
+        if(!empty($artistAlbum_id) && !empty($trackNum)) {
             $trackNum = (int)$trackNum; // Same dirty trick to make sure the user input a track number
             if ($trackNum < 1) {
                 echo "Track number must be a positive integer\n\n";
