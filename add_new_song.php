@@ -220,10 +220,10 @@ if (!empty($aa_id)) {
                     $stmt->execute(); 
 
                     // Message for if query to add perfomer for song worked or not
-                    echo "Added " . $performer . " as a performring artist\n\n";
+                    echo "Added " . $performer . " as a performing artist\n\n";
                 } 
             } else {
-                    echo "Provided performring artist \"" . $performer . "\" not found, please add to Artist table first!\n\n";
+                    echo "Provided performing artist \"" . $performer . "\" not found, please add to Artist table first!\n\n";
             }
         }
     }
